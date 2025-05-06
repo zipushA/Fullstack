@@ -10,7 +10,6 @@ const submitMatchingData = async (data: any) => {
     if (!response.ok) {
         throw new Error("Failed to submit data");
     }
-
     return response.json();
 };
 

@@ -28,13 +28,24 @@ namespace Server.Service.Services
             var dataDto = _mapper.Map<MatchingDataDto>(data);
             return dataDto;
         }
+        //public async Task<MatchingDataDto> AddAsync(MatchingDataDto mDto)
+        //{
+        //    var m = _mapper.Map<MatchingData>(mDto);
+        //    await _repositoryManager.MatchingData.AddAsync(m);
+        //    await _repositoryManager.SaveAsync();
+        //    return mDto;
+        //}
         public async Task<MatchingDataDto> AddAsync(MatchingDataDto mDto)
         {
             var m = _mapper.Map<MatchingData>(mDto);
             await _repositoryManager.MatchingData.AddAsync(m);
             await _repositoryManager.SaveAsync();
-            return mDto;
+
+            // אחרי השמירה, ל־m כבר יש Id מה־DB
+            var resultDto = _mapper.Map<MatchingDataDto>(m);
+            return resultDto;
         }
+
         public async Task<MatchingDataDto> UpdateAsync(int id, MatchingDataDto updatedEntity)
         {
             var m = _mapper.Map<MatchingData>(updatedEntity);

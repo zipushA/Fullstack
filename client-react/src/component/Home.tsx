@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
     };
 
     const handleManagerLogin = () => {
-        dispatch(setUserType('manager'));  // הגדרת סוג המשתמש ל-manager
+        dispatch(setUserType('principal'));  // הגדרת סוג המשתמש ל-manager
         navigate('/auth/login');  // מעבר לדף הכניסה למנהלות
     };
    

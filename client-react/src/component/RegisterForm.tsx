@@ -3,16 +3,16 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { InputAdornment, IconButton, Button, Container, Typography, Card, Snackbar, Select, MenuItem, FormControl, InputLabel, TextField } from '@mui/material';
+import { InputAdornment, IconButton, Button, Container, Typography, Card, Snackbar, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import FormInput from './FormInput';
 import FileUpload from './FileUpload';
-import { Controller } from 'react-hook-form';
-
 import {  UserPostModel, UserRegister } from '../models/UserType';
 import { registerUser } from './Services/AuthService';
-import { useDispatch } from 'react-redux';
-import { setUser } from './Redux/slices/AuthSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from './Redux/slices/authSlice';
+import { RootState } from './Redux/store';
+
 
 const schema = Yup.object().shape({
     name: Yup.string().required('שם הוא שדה חובה'),
@@ -25,16 +25,20 @@ const schema = Yup.object().shape({
 
 const RegisterForm: React.FC = () => {
     const dispatch = useDispatch();
-    
+    const storedDataId = sessionStorage.getItem('dataId');
+const matchingDataId = storedDataId ? parseInt(storedDataId, 10) : 0;
+const userRole= useSelector((state: RootState) => state.auth.userType);
+
+
     const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm<UserRegister>({
         resolver: yupResolver(schema),
         defaultValues: {
             name: '',
             email: '',
             password: '',
-            matchingDataId: 0,
+            matchingDataId: matchingDataId,
             link: '',
-            role: 'teacher',
+            role: userRole||'teacher'
         },
     });
     const [showPassword, setShowPassword] = useState(false);
@@ -49,6 +53,7 @@ const RegisterForm: React.FC = () => {
 
     const onSubmit: SubmitHandler<UserRegister> = async (data) => {
         console.log("submit begin");
+        console.log(matchingDataId);
         
         try {
             const userPostModel: UserPostModel = {
@@ -87,36 +92,11 @@ const RegisterForm: React.FC = () => {
                             </IconButton>
                         </InputAdornment>
                     } sx={{ mb: 2 }} />
-                    <FormInput name="matchingDataId" label="matchingDataId" control={control} error={errors.matchingDataId?.message} sx={{ mb: 2 }} />
-
                     {/* העלאת קובץ */}
                     <FileUpload onUploadSuccess={(url) => setValue('link', url)} />
 
                     {/* קישור - תצוגה בלבד */}
                     <TextField label="קישור לקובץ" fullWidth margin="normal" value={linkValue || ''} disabled sx={{ mt: 2 }} />
-
-                    {/* <FormControl fullWidth sx={{ mb: 2 }}>
-                        <InputLabel id="role-label">תפקיד</InputLabel>
-                        <Select labelId="role-label" label="תפקיד" {...control.register("role")}>  
-                            <MenuItem value="teacher">מורה</MenuItem>
-                            <MenuItem value="principal">מנהל</MenuItem>
-                        </Select>
-                        {errors.role && <Typography color="error">{errors.role.message}</Typography>}
-                    </FormControl> */}
-                    <Controller
-                        name="role"
-                        control={control}
-                        render={({ field }) => (
-                            <FormControl fullWidth sx={{ mb: 2 }} error={!!errors.role}>
-                                <InputLabel id="role-label">תפקיד</InputLabel>
-                                <Select labelId="role-label" label="תפקיד" {...field}>
-                                    <MenuItem value="teacher">מורה</MenuItem>
-                                    <MenuItem value="principal">מנהל</MenuItem>
-                                </Select>
-                                {errors.role && <Typography color="error">{errors.role.message}</Typography>}
-                            </FormControl>
-                        )}
-                    />
                     <Button type="submit" variant="contained" fullWidth sx={{ backgroundColor: '#00A3A3', mt: 2, color: '#fff', '&:hover': { backgroundColor: '#006666' } }}>
                         הרשמה
                     </Button>

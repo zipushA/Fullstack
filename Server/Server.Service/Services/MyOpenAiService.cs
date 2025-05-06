@@ -23,10 +23,10 @@ public class MyOpenAiService
             model = "gpt-4",  // עדכון המודל ל-gpt-4
             messages = new[]
             {
-                new { role = "system", content = "אתה עוזר שמסכם קורות חיים של מורות." },
+                new { role = "system", content = "אתה עוזר שמסכם קורות חיים של מורות ." },
                 new { role = "user", content = $"נתונים מקובץ קורות חיים:\n{resumeText}\n\nנתח את האישיות והמאפיינים המקצועיים של המורה בקצרה." }
             },
-            max_tokens = 300,
+            max_tokens = 1000,
             temperature = 0.7
         };
 

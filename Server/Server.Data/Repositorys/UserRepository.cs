@@ -44,7 +44,6 @@ namespace Server.Data.Repositorys
                             t.Data.Seniority >= p.Data.Seniority &&
                             t.Data.IsBoys == p.Data.IsBoys &&
                             t.Data.IsKeruv == p.Data.IsKeruv &&
-                            t.Data.ResidentialArea == p.Data.ResidentialArea &&
                             t.RoleList.Any(r => r.RoleName == "Teacher"))
                 .ToListAsync();
         }

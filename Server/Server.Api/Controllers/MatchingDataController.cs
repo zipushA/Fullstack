@@ -12,7 +12,6 @@ namespace Server.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class MatchingDataController(IMatchingDataService matchingDataService,IMapper mapper) : ControllerBase
     {
         private readonly IMatchingDataService _matchingDataService = matchingDataService;

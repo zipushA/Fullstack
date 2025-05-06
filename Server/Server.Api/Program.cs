@@ -45,6 +45,8 @@ builder.Services.AddAutoMapper(typeof(MappingPostProfile));
 builder.Services.AddScoped<IS3Service, S3Service>();
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddSingleton<MyOpenAiService>();
+builder.Services.AddHttpClient<GoogleMapsService>();
+
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
