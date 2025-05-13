@@ -58,6 +58,16 @@ namespace Server.Api.Controllers
             }
             return Ok(result);
         }
+        [HttpGet("OrderDataT")]
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetOrderDataT(int id)
+        {
+            var result = await _userService.GetOrderDataAsyncT(id);
+            if (result == null || !result.Any())
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
         // GET  api/<TeacherController>/5
         [HttpGet("Full/{id}")]
         public async Task<ActionResult<UserDto?>> GetByIdFull(int id)

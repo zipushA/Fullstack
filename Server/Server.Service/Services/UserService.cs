@@ -33,6 +33,13 @@ namespace Server.Service.Services
             return teachersDto;
             
         }
+        public async Task<IEnumerable<UserDto>> GetOrderDataAsyncT(int id)
+        {
+            var principals = await _repositoryManager.Users.GetOrderDataAsync(id);
+            var principalsDto = _mapper.Map<IEnumerable<UserDto>>(principals);
+            return principalsDto;
+
+        }
         public async Task<IEnumerable<UserDto>> GetAllAsync()
         {
             var users = await _repositoryManager.Users.GetAsync();

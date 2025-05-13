@@ -13,6 +13,7 @@ namespace Server.Core.Interfaces.Services
     {
         public Task<IEnumerable<UserDto>> GetUsersDataAsync(string role);
         public Task<IEnumerable<UserDto>> GetOrderDataAsync(int id);
+        Task<IEnumerable<UserDto>> GetOrderDataAsyncT(int id);
         public Task<IEnumerable<UserDto>> GetAllAsync();
         public Task<UserDto?> GetByIdDataAsync(int id);
         public Task<Result<UserDto>> AddAsync(UserDto t,string role);

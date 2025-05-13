@@ -1,3 +1,5 @@
+import { Data } from "./dataType";
+
 export type UserRegister = {
     id?: number,
     name: string; 
@@ -6,6 +8,7 @@ export type UserRegister = {
     matchingDataId:number;
     link:string;
     role:'teacher'|'principal'
+    
 }
 export type User = {
     id: number,
@@ -15,6 +18,7 @@ export type User = {
     matchingDataId:number;
     link:string;
     role:'teacher'|'principal'
+    matchingData: Data; 
 }
 
 export type UserPostModel = {

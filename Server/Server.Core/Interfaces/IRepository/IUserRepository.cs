@@ -13,6 +13,7 @@ namespace Server.Core.Interfaces.IRepository
          Task<IEnumerable<User>> GetUsersDataAsync(string role);
 
          Task<IEnumerable<User>> GetOrderDataAsync(int id);
+        Task<IEnumerable<User>> GetOrderDataAsyncT(int id);
 
         Task<User?> GetByIdDataAsync(int id);
         Task<bool> ExistsAsync(string email);

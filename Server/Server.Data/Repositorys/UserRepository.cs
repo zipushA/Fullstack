@@ -47,6 +47,27 @@ namespace Server.Data.Repositorys
                             t.RoleList.Any(r => r.RoleName == "Teacher"))
                 .ToListAsync();
         }
+        //למציאת כל המנהלות שיש להן DATA כמו למורה מסוימת
+        public async Task<IEnumerable<User>> GetOrderDataAsyncT(int id)
+        {
+            User p = await GetByIdDataAsync(id);
+
+            if (p == null)
+            {
+                // טיפול במקרה שבו המורה לא נמצא
+                throw new Exception("Teacher not found");
+            }
+
+            return await _dataSet
+                .Include(t => t.Data)
+                .Where(t => t.Data != null && // בדוק אם t.data לא null
+                            t.Data.Seniority <= p.Data.Seniority &&
+                            t.Data.IsBoys == p.Data.IsBoys &&
+                            t.Data.IsKeruv == p.Data.IsKeruv &&
+                            t.RoleList.Any(r => r.RoleName == "Principal"))
+                .ToListAsync();
+        }
+
         public User? GetUserWithRoles(string email)
         {
             return _dataSet.Where(u => u.Email == email)
