@@ -113,5 +113,17 @@ namespace Server.Service.Services
             bool hasDigit = password.Any(char.IsDigit);
             return hasLetter && hasDigit;
         }
+        public async Task<int> GetTeacherCountAsync()
+        {
+            var users = await _repositoryManager.Users.GetAsync();
+            return users.Count(u => u.RoleList.Any(r => r.RoleName== "Teacher"));
+        }
+
+        public async Task<int> GetPrincipalCountAsync()
+        {
+            var users = await _repositoryManager.Users.GetAsync();
+            return users.Count(u => u.RoleList.Any(r => r.RoleName.ToLower() == "Principal"));
+        }
+
     }
 }

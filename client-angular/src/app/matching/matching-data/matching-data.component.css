@@ -1,0 +1,61 @@
+.matching-data-container {
+    padding: 16px;
+  }
+  
+  .page-title {
+    margin-bottom: 24px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .form-card-container {
+    margin-bottom: 24px;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  
+  .filter-container {
+    margin-bottom: 16px;
+    
+    .mat-form-field {
+      width: 100%;
+      max-width: 500px;
+    }
+  }
+  
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    
+    table {
+      width: 100%;
+    }
+    
+    .mat-column-actions {
+      width: 100px;
+      text-align: center;
+    }
+    
+    .mat-column-description {
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  

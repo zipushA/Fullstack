@@ -1,0 +1,15 @@
+.chart-container {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+  }
+  
+  .chart-container:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  }

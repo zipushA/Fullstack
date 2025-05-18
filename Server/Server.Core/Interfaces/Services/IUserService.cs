@@ -19,6 +19,9 @@ namespace Server.Core.Interfaces.Services
         public Task<Result<UserDto>> AddAsync(UserDto t,string role);
         public Task<UserDto> UpdateAsync(int id, UserDto t);
         public Task<bool> DeleteAsync(int id);
+        public  Task<int> GetTeacherCountAsync();
+        public Task<int> GetPrincipalCountAsync();
+
 
     }
 }

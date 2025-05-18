@@ -1,4 +1,31 @@
-::ng-deep .mat-raised-button {
-    background-color: #04BB9C !important;
-    color: white !important;
-}
+/* app.component.scss */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .sidenav-container {
+    flex: 1;
+  }
+  
+  .is-mobile .sidenav-container {
+    flex: 1 0 auto;
+  }
+  
+  .content-container {
+    padding: 20px;
+    height: calc(100% - 40px);
+  }
+  
+  .auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }

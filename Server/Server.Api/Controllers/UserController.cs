@@ -37,8 +37,7 @@ namespace Server.Api.Controllers
         }
 
         [HttpGet("Full")]
-        [Authorize(Policy = "admin,principal")]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetFull([FromBody] string role)
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetFull([FromQuery] string role)
         {
           
             var result = await _userService.GetUsersDataAsync(role);
@@ -146,5 +145,19 @@ namespace Server.Api.Controllers
             var url = await _s3Service.GetDownloadUrlAsync(fileName);
             return Ok(new { downloadUrl = url });
         }
+        [HttpGet("Count/Teachers")]
+        public async Task<ActionResult<int>> GetTeacherCount()
+        {
+            var count = await _userService.GetTeacherCountAsync();
+            return Ok(count);
+        }
+
+        [HttpGet("Count/Principals")]
+        public async Task<ActionResult<int>> GetPrincipalCount()
+        {
+            var count = await _userService.GetPrincipalCountAsync();
+            return Ok(count);
+        }
+
     }
 }

@@ -1,0 +1,109 @@
+<div class="matching-data-container">
+    <h1 class="page-title">Matching Data Management</h1>
+    
+    <div class="form-card-container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ isEditMode ? 'Edit' : 'Add' }} Matching Data</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="matchingDataForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name" placeholder="Name" required>
+           @if(matchingDataForm.get('name')?.errors?.['required']){  <mat-error>Name is required</mat-error>}
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" placeholder="Description" rows="3" required></textarea>
+            @if(matchingDataForm.get('description')?.errors?.['required'])  {<mat-error>Description is required</mat-error>}
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="value" placeholder="Value" required>
+             @if(matchingDataForm.get('value')?.errors?.['required']) {<mat-error>Value is required</mat-error>}
+              @if(matchingDataForm.get('value')?.errors?.['min']){<mat-error >Value must be at least 0</mat-error>}
+              @if(matchingDataForm.get('value')?.errors?.['max']){<mat-error >Value must be at most 100</mat-error>}
+            </mat-form-field>
+            
+            <div class="form-actions">
+              @if(isEditMode){<button mat-button type="button" (click)="resetForm()" >Cancel</button>}
+              <button mat-raised-button color="primary" type="submit" [disabled]="matchingDataForm.invalid">
+                {{ isEditMode ? 'Update' : 'Add' }}
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    
+    <mat-card class="data-table-card">
+      <mat-card-content>
+        <div class="filter-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Search matching data" #input>
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+       @if(loading) 
+       { <div class="loading-container">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>}
+       @if(!loading) 
+{        <div class="table-container">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+              <td mat-cell *matCellDef="let data"> {{data.id}} </td>
+            </ng-container>
+            
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+              <td mat-cell *matCellDef="let data"> {{data.name}} </td>
+            </ng-container>
+            
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+              <td mat-cell *matCellDef="let data"> {{data.description}} </td>
+            </ng-container>
+            
+            <!-- Value Column -->
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Value </th>
+              <td mat-cell *matCellDef="let data"> {{data.value}} </td>
+            </ng-container>
+            
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let data">
+                <button mat-icon-button color="accent" (click)="editMatchingData(data)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteMatchingData(data.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
+            </tr>
+          </table>
+          
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of matching data"></mat-paginator>
+        </div>}
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

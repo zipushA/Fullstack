@@ -1,0 +1,72 @@
+<div class="user-detail-container">
+    <div class="header-actions">
+      <h1 class="page-title">User Details</h1>
+      @if(isAdmin)
+      {<div class="action-buttons" >
+        <button mat-raised-button color="accent" [routerLink]="['/users/edit', userId]">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </button>
+        <button mat-raised-button color="warn" (click)="deleteUser()">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+      </div>}
+    </div>
+   @if(loading) 
+   { <div class="loading-container">
+      <mat-spinner></mat-spinner>
+    </div>}
+   @if(!loading && user) 
+   { <div class="user-content">
+      <mat-card class="user-info-card">
+        <mat-card-header>
+          <div mat-card-avatar class="user-avatar">
+            <mat-icon>person</mat-icon>
+          </div>
+          <mat-card-title>{{ user.firstName }} {{ user.lastName }}</mat-card-title>
+          <mat-card-subtitle>
+            <mat-chip [color]="user.role === 'admin' ? 'warn' : user.role === 'principal' ? 'primary' : 'accent'" selected>
+              {{ user.role | titlecase }}
+            </mat-chip>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">Email</div>
+              <div class="info-value">{{ user.email }}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Phone</div>
+              <div class="info-value">{{ user.phoneNumber }}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Residential Area</div>
+              <div class="info-value">{{ user.residentialArea }}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">User ID</div>
+              <div class="info-value">{{ user.id }}</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+     @if(user.data) 
+     { <mat-card class="user-data-card">
+        <mat-card-header>
+          <mat-card-title>Additional Data</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <pre class="data-json">{{ user.data | json }}</pre>
+        </mat-card-content>
+      </mat-card>}
+    </div>}
+    @if(!loading && !user)
+   { <div class="not-found">
+      <mat-icon>error</mat-icon>
+      <h2>User not found</h2>
+      <button mat-raised-button color="primary" [routerLink]="['/users']">Back to Users</button>
+    </div>}
+  </div>
+  

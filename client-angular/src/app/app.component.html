@@ -1,1 +1,22 @@
-<app-home></app-home>
+<!-- app.component.html -->
+<div class="app-container" [class.is-mobile]="mobileQuery.matches">
+    @if(authService.isLoggedIn()){
+    <app-header (toggleSidenav)="snav.toggle()"></app-header>
+    }
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="authService.isLoggedIn() ? 56 : 0">
+        @if(authService.isLoggedIn()){
+      <mat-sidenav #snav
+                  [mode]="mobileQuery.matches ? 'over' : 'side'"
+                  [fixedInViewport]="mobileQuery.matches"
+                  fixedTopGap="56"
+                  [opened]="!mobileQuery.matches && authService.isLoggedIn()">
+        <app-sidenav></app-sidenav>
+      </mat-sidenav>
+    }
+      <mat-sidenav-content>
+        <div class="content-container" [ngClass]="{'auth-container': !authService.isLoggedIn()}">
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
