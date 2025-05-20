@@ -43,4 +43,56 @@
       text-align: center;
     }
   }
-  
+  .user-list-container {
+  padding: 16px;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  margin: 0;
+  font-weight: 500;
+  color: #333;
+}
+
+.filter-container {
+  margin-bottom: 16px;
+}
+
+.filter-container .mat-form-field {
+  width: 100%;
+  max-width: 500px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.table-container table {
+  width: 100%;
+}
+
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+}
+
+.mat-column-id {
+  width: 80px;
+}
+
+.mat-column-role {
+  width: 120px;
+}

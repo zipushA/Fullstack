@@ -3,7 +3,7 @@ import  { HttpClient } from "@angular/common/http"
 import { BehaviorSubject, type Observable } from "rxjs"
 import { tap, catchError } from "rxjs/operators"
 import  { Router } from "@angular/router"
-import type { LoginModel, LoginResponseDto, RegisterModel, User } from "../models/user.model"
+import type { LoginModel, LoginResponseDto, User } from "../models/user.model"
 
 import  { MatSnackBar } from "@angular/material/snack-bar"
 import { environment } from "../../environments/environment"
@@ -104,4 +104,16 @@ export class AuthService {
       this.logout()
     }, expiresIn)
   }
+  getRoleFromToken(): string | null {
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || null;
+  } catch {
+    return null;
+  }
+}
+
 }

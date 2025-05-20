@@ -13,13 +13,7 @@ namespace Server.Data.Repositorys
         public IUserRepository Users { get; } = UserRepository;
         public IMatchingDataRepository MatchingData { get; } = matchingDataRepository;
 
-        //public RepositoryManager(DataContext context, IUserRepository UserRepository,IMatchingDataRepository matchingDataRepository)
-        //{
-        //    _context = context;
-        //    Teachers = teacherRepository;
-        //    Principals = principals;
-        //    MatchingData=matchingDataRepository;
-        //}
+     
 
         public async Task SaveAsync()
         {

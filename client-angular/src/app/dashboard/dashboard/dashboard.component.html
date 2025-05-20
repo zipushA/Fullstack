@@ -83,7 +83,7 @@
             <!-- שם -->
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef>Name</th>
-              <td mat-cell *matCellDef="let user">{{ user.firstName }} {{ user.lastName }}</td>
+              <td mat-cell *matCellDef="let user">{{ user.name}}</td>
             </ng-container>
             
             <!-- אימייל -->
@@ -93,7 +93,24 @@
             </ng-container>
             
             <!-- תפקיד -->
-            <ng-container matColumnDef="role">
+  <ng-container matColumnDef="role">
+  <th mat-header-cell *matHeaderCellDef>Role</th>
+  <td mat-cell *matCellDef="let user">
+    @if (user.roleList?.length > 0) {
+      @for (role of user.roleList; track role.id) {
+        [<mat-chip [color]="getRoleColor(role.roleName)" selected>
+          {{ role.roleName | titlecase }}
+        </mat-chip>]
+      }
+    } @else {
+      <span>No Role</span>
+    }
+  </td>
+</ng-container>
+
+
+
+            <!-- <ng-container matColumnDef="role">
               <th mat-header-cell *matHeaderCellDef>Role</th>
               <td mat-cell *matCellDef="let user">
                 <mat-chip [color]="getRoleColor(user.role)" selected>
@@ -101,7 +118,7 @@
                 </mat-chip>
               </td>
             </ng-container>
-            
+             -->
             <!-- פעולות -->
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef>Actions</th>

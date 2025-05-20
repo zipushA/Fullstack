@@ -5,7 +5,7 @@ import type { MatchingData, SortedTeacher } from "../models/matching-data.model"
 
 import { catchError, tap } from "rxjs/operators"
 import  { MatSnackBar } from "@angular/material/snack-bar"
-import { environment } from "../../environments/environment.prod"
+import { environment } from "../../environments/environment"
 
 @Injectable({
   providedIn: "root",
@@ -53,8 +53,8 @@ export class MatchingService {
       }),
     )
   }
+getSortedTeachers(principalId: number): Observable<SortedTeacher[]> {
+  return this.http.get<SortedTeacher[]>(`${environment.apiUrl}/matching/sorted-teachers?principalId=${principalId}`);
+}
 
-  getSortedTeachers(principalId: number): Observable<SortedTeacher[]> {
-    return this.http.get<SortedTeacher[]>(`${environment.apiUrl}/matching/sorted-teachers?principalId=${principalId}`)
-  }
 }

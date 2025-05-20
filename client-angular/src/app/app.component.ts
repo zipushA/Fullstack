@@ -1,12 +1,12 @@
 
 import { Component, ViewChild, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderComponent } from './layout/header/header.component';
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { AuthService } from './services/auth.service';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -14,11 +14,11 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     RouterOutlet,
     MatSidenavModule,
     HeaderComponent,
-    SidenavComponent
+    SidenavComponent,
+    NgClass
   ]
 })
 export class AppComponent implements OnInit, OnDestroy {

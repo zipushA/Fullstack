@@ -12,14 +12,17 @@ export class RoleGuard implements CanActivate {
     private router: Router,
   ) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const roles = route.data["roles"] as Array<string>
+ canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  const roles = route.data["roles"] as string[];
+  const userRole = this.authService.getRoleFromToken();
 
-    if (this.authService.hasRole(roles)) {
-      return true
-    }
-
-    this.router.navigate(["/dashboard"])
-    return false
+  if (userRole && roles.includes(userRole.toLowerCase())) {
+    return true;
   }
+
+  this.router.navigate(["/access-denied"]);
+  return false;
+}
+
+
 }

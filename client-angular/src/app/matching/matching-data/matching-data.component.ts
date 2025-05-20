@@ -34,7 +34,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
   styleUrls: ["./matching-data.component.css"],
 })
 export class MatchingDataComponent implements OnInit {
-  displayedColumns: string[] = ["id", "name", "description", "value", "actions"]
+  displayedColumns: string[] = ["id", "seniority", "isBoys", "isKeruv", "residentialArea","actions"]
   dataSource = new MatTableDataSource<MatchingData>([])
   loading = true
   matchingDataForm!: FormGroup
@@ -63,9 +63,10 @@ export class MatchingDataComponent implements OnInit {
 
   initForm(): void {
     this.matchingDataForm = this.formBuilder.group({
-      name: ["", Validators.required],
-      description: ["", Validators.required],
-      value: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
+      seniority: [0, Validators.required],
+      isBoys: [true, Validators.required],
+      isKeruv: [true,Validators.required],
+      residentialArea:["",Validators.required]
     })
   }
 
@@ -99,9 +100,10 @@ export class MatchingDataComponent implements OnInit {
 
     const matchingData: MatchingData = {
       id: this.currentId || 0,
-      name: this.matchingDataForm.value.name,
-      description: this.matchingDataForm.value.description,
-      value: this.matchingDataForm.value.value,
+      seniority: this.matchingDataForm.value.seniority,
+      isKeruv: this.matchingDataForm.value.isKeruv,
+      isBoys: this.matchingDataForm.value.isBoys,
+      residentialArea:this.matchingDataForm.value.residentialArea
     }
 
     if (this.isEditMode && this.currentId) {
@@ -129,18 +131,8 @@ export class MatchingDataComponent implements OnInit {
     }
   }
 
-  editMatchingData(data: MatchingData): void {
-    this.isEditMode = true
-    this.currentId = data.id
-    this.matchingDataForm.patchValue({
-      name: data.name,
-      description: data.description,
-      value: data.value,
-    })
-  }
-
+ 
   deleteMatchingData(id: number): void {
-    if (confirm("Are you sure you want to delete this matching data?")) {
       this.matchingService.deleteMatchingData(id).subscribe({
         next: () => {
           this.loadMatchingData()
@@ -150,7 +142,7 @@ export class MatchingDataComponent implements OnInit {
           this.snackBar.open("Failed to delete matching data", "Close", { duration: 3000 })
         },
       })
-    }
+    
   }
 
   resetForm(): void {

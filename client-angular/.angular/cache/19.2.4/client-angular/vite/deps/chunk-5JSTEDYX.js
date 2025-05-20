@@ -1,17 +1,17 @@
 import {
-  _CdkPrivateStyleLoader,
-  _bindEventWithOptions
-} from "./chunk-PXS5HQXW.js";
+  BidiModule
+} from "./chunk-UAJFAPCN.js";
 import {
   BreakpointObserver
 } from "./chunk-BHTBCUCC.js";
 import {
+  _CdkPrivateStyleLoader,
+  _bindEventWithOptions
+} from "./chunk-PXS5HQXW.js";
+import {
   coerceElement,
   coerceNumberProperty
 } from "./chunk-GHKDWEEO.js";
-import {
-  BidiModule
-} from "./chunk-UAJFAPCN.js";
 import {
   Platform
 } from "./chunk-73JG3SIZ.js";
@@ -2992,7 +2992,6 @@ export {
   addAriaReferencedId,
   removeAriaReferencedId,
   AriaDescriber,
-  MATERIAL_SANITY_CHECKS,
   MatCommonModule
 };
-//# sourceMappingURL=chunk-4C37I57K.js.map
+//# sourceMappingURL=chunk-5JSTEDYX.js.map

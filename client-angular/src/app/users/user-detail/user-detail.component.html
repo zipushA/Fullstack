@@ -24,7 +24,7 @@
           <div mat-card-avatar class="user-avatar">
             <mat-icon>person</mat-icon>
           </div>
-          <mat-card-title>{{ user.firstName }} {{ user.lastName }}</mat-card-title>
+          <mat-card-title>{{user.name }}</mat-card-title>
           <mat-card-subtitle>
             <mat-chip [color]="user.role === 'admin' ? 'warn' : user.role === 'principal' ? 'primary' : 'accent'" selected>
               {{ user.role | titlecase }}
@@ -36,14 +36,6 @@
             <div class="info-item">
               <div class="info-label">Email</div>
               <div class="info-value">{{ user.email }}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">Phone</div>
-              <div class="info-value">{{ user.phoneNumber }}</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label">Residential Area</div>
-              <div class="info-value">{{ user.residentialArea }}</div>
             </div>
             <div class="info-item">
               <div class="info-label">User ID</div>

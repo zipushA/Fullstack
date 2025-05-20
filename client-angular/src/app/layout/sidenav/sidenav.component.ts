@@ -9,7 +9,6 @@ interface NavItem {
   label: string;
   icon: string;
   route: string;
-  roles: string[];
 }
 
 @Component({
@@ -21,10 +20,9 @@ interface NavItem {
 })
 export class SidenavComponent {
   navItems: NavItem[] = [
-    { label: "Dashboard", icon: "dashboard", route: "/dashboard", roles: ["admin", "principal", "teacher"] },
-    { label: "Users", icon: "people", route: "/users", roles: ["admin", "principal"] },
-    { label: "Teacher Sorting", icon: "sort", route: "/teacher-sorting", roles: ["principal"] },
-    { label: "Matching Data", icon: "settings", route: "/matching-data", roles: ["admin"] },
+    { label: "Dashboard", icon: "dashboard", route: "/dashboard"},
+    { label: "Users", icon: "people", route: "/users" },
+    { label: "Matching Data", icon: "settings", route: "/matching-data"},
   ];
 
   constructor(
@@ -34,8 +32,7 @@ export class SidenavComponent {
   }
 
   isVisible(item: NavItem): boolean {
-    const hasRole = this.authService.hasRole(item.roles);
-    return hasRole;
+    return true
   }
   alwaysVisible(): boolean {
     return true;

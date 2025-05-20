@@ -115,14 +115,14 @@ namespace Server.Service.Services
         }
         public async Task<int> GetTeacherCountAsync()
         {
-            var users = await _repositoryManager.Users.GetAsync();
-            return users.Count(u => u.RoleList.Any(r => r.RoleName== "Teacher"));
+            var users = await _repositoryManager.Users.GetUsersDataAsync("teacher");
+            return users.Count();
         }
 
         public async Task<int> GetPrincipalCountAsync()
         {
-            var users = await _repositoryManager.Users.GetAsync();
-            return users.Count(u => u.RoleList.Any(r => r.RoleName.ToLower() == "Principal"));
+            var users = await _repositoryManager.Users.GetUsersDataAsync("principal");
+            return users.Count();
         }
 
     }

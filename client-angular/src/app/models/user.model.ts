@@ -1,17 +1,10 @@
 export interface User {
-    // length: number
-    // filter(arg0: (u: User) => boolean): unknown
-    // slice(arg0: number, arg1: number): User[]
     id: number
-    firstName: string
-    lastName: string
+    name:string
     email: string
-    phoneNumber: string
-    residentialArea?: string
     role?: string
     data?: any
-    createdAt?: Date
-    updatedAt?: Date
+     roleList: Role[];
   }
   
   export interface UserDto extends User {
@@ -28,7 +21,8 @@ export interface User {
     user: User
   }
   
-  export interface RegisterModel extends User {
-    password: string
-  }
-  
+ export interface Role {
+  id: number;
+  roleName: string;
+  permissionList: any[]; // תוכל להגדיר גם טיפוס `Permission` בעתיד
+}
