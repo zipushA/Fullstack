@@ -1,0 +1,89 @@
+/* Checkbox Group */
+.checkbox-group {
+    background-color: var(--primary-lighter);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.checkbox-title {
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.checkbox-item {
+    margin-bottom: 15px;
+}
+
+.checkbox-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Decoration Features */
+.decoration-features {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+}
+
+.feature-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.feature-text {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* Number Input Styling */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .auth-card-wrapper {
+        flex-direction: column;
+    }
+
+    .auth-decoration {
+        min-width: auto;
+        padding: 30px;
+    }
+
+    .decoration-image {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+
+    .decoration-content h2 {
+        font-size: 1.8rem;
+    }
+}

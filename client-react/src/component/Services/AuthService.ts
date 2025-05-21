@@ -15,4 +15,10 @@ export const loginUser = (email: string, password: string) => {
     return axios.post(`${BASE_URL}/login`, { email, password }, {
         headers: { 'Content-Type': 'application/json' },
     });
+
 };
+export const updateUser = (user: UserPostModel) => {
+  return axios.put(`${BASE_URL}/update`, user, {
+    headers: { 'Content-Type': 'application/json' }
+  });
+  };
