@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Server.Core.Interfaces.Services;
 using System.Net.Http.Headers;
 
 [ApiController]
@@ -7,7 +8,7 @@ public class AIController : ControllerBase
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IConfiguration _config;
-    private readonly MyOpenAiService _openAiService;
+    private readonly IMyOpenAiService _openAiService;
 
     public AIController(
         IHttpClientFactory httpClientFactory,

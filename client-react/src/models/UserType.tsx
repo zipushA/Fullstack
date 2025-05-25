@@ -7,7 +7,7 @@ export type UserRegister = {
     password: string;
     matchingDataId:number;
     link:string;
-    role:'teacher'|'principal'
+    role:string
     
 }
 export type User = {
@@ -17,7 +17,7 @@ export type User = {
     password: string;
     matchingDataId:number;
     link:string;
-    role:'teacher'|'principal'
+    role:string
     matchingData: Data; 
 }
 

@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setUser } from './Redux/slices/authSlice';
-import { RootState } from './Redux/store';
 import { registerUser } from './Services/AuthService';
 import { UserPostModel, UserRegister } from '../models/UserType';
 import '../component/AuthForms.css';
@@ -18,15 +17,14 @@ const schema = Yup.object().shape({
   password: Yup.string().required('סיסמא היא שדה חובה'),
   matchingDataId: Yup.number().required('dataId הוא שדה חובה'),
   link: Yup.string().required('קישור הוא שדה חובה'),
-  role: Yup.string().oneOf(['teacher', 'principal'], 'תפקיד לא תקין').required('תפקיד הוא שדה חובה'),
+  role: Yup.string().required('תפקיד הוא שדה חובה'),
 });
 
 const RegisterForm: React.FC = () => {
   const dispatch = useDispatch();
   const storedDataId = sessionStorage.getItem('dataId');
   const matchingDataId = storedDataId ? parseInt(storedDataId, 10) : 0;
-  const userRole = useSelector((state: RootState) => state.auth.userType);
-
+  const userRole = sessionStorage.getItem("userType") as 'teacher' | 'principal' || 'teacher';
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<UserRegister>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -35,7 +33,7 @@ const RegisterForm: React.FC = () => {
       password: '',
       matchingDataId: matchingDataId,
       link: '',
-      role: userRole || 'teacher'
+      role: userRole
     },
   });
 
@@ -49,10 +47,9 @@ const RegisterForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeField, setActiveField] = useState<string | null>(null);
   const [passwordStrength, setPasswordStrength] = useState(0);
-  const [progress, setProgress] = useState(0);
+  const [, setProgress] = useState(0);
   const linkValue = watch('link');
   const passwordValue = watch('password');
-
   // Animation for background particles
   useEffect(() => {
     const particles = document.querySelectorAll('.auth-particle');
@@ -125,50 +122,101 @@ const RegisterForm: React.FC = () => {
       setValue('link', publicUrl);
     }
   };
-  const onSubmit: SubmitHandler<UserRegister> = async (data) => {
-    setIsLoading(true);
-    try {
-      const userPostModel: UserPostModel = {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        matchingDataId: data.matchingDataId,
-        link: data.link
-      };
+  // const onSubmit: SubmitHandler<UserRegister> = async (data) => {
+  //   setIsLoading(true);
+  //   try {
+  //     const userPostModel: UserPostModel = {
+  //       name: data.name,
+  //       email: data.email,
+  //       password: data.password,
+  //       matchingDataId: data.matchingDataId,
+  //       link: data.link
+  //     };
 
-      const res = await registerUser(userPostModel, data.role);
-      dispatch(setUser({
-        user: res.data.user,
-        token: res.data.token,
-      }));
+  //     const res = await registerUser(userPostModel, data.role);
+  //     dispatch(setUser({
+  //       user: res.data.user,
+  //       token: res.data.token,
+  //     }));
       
-      setNotification({
-        show: true,
-        message: 'הרשמה הצליחה!',
-        isError: false
-      });
+  //     setNotification({
+  //       show: true,
+  //       message: 'הרשמה הצליחה!',
+  //       isError: false
+  //     });
       
-      // הסתרת ההודעה אחרי 3 שניות
-      setTimeout(() => {
-        setNotification(prev => ({ ...prev, show: false }));
-      }, 3000);
+  //     // הסתרת ההודעה אחרי 3 שניות
+  //     setTimeout(() => {
+  //       setNotification(prev => ({ ...prev, show: false }));
+  //     }, 3000);
       
-    } catch (error: any) {
-      const errorMessage = error.response ? error.response.data : 'אירעה שגיאה ברשת';
-      setNotification({
-        show: true,
-        message: errorMessage,
-        isError: true
-      });
+  //   } catch (error: any) {
+  //     const errorMessage = error.response ? error.response.data : 'אירעה שגיאה ברשת';
+  //     setNotification({
+  //       show: true,
+  //       message: errorMessage,
+  //       isError: true
+  //     });
       
-      // הסתרת הודעת השגיאה אחרי 5 שניות
-      setTimeout(() => {
-        setNotification(prev => ({ ...prev, show: false }));
-      }, 5000);
-    } finally {
-      setIsLoading(false);
-    }
+  //     // הסתרת הודעת השגיאה אחרי 5 שניות
+  //     setTimeout(() => {
+  //       setNotification(prev => ({ ...prev, show: false }));
+  //     }, 5000);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+const onSubmit: SubmitHandler<UserRegister> = async (data) => {
+  setIsLoading(true);
+
+  const userPostModel: UserPostModel = {
+    name: data.name,
+    email: data.email,
+    password: data.password,
+    matchingDataId: data.matchingDataId,
+    link: data.link
   };
+
+  // הדפסת הנתונים שנשלחים
+  console.log("📤 נתונים שנשלחים לשרת:", userPostModel);
+
+   console.log("📤 תפקיד שנבחר:",userRole);
+  try {
+    const res = await registerUser(userPostModel, data.role);
+    
+    dispatch(setUser({
+      user: res.data.user,
+      token: res.data.token,
+    }));
+    
+    setNotification({
+      show: true,
+      message: 'הרשמה הצליחה!',
+      isError: false
+    });
+
+    setTimeout(() => {
+      setNotification(prev => ({ ...prev, show: false }));
+    }, 3000);
+
+  } catch (error: any) {
+    console.error("❌ שגיאה מהשרת:", error);
+    console.log("❌ תגובת השגיאה מהשרת:", error.response?.data);
+
+    const errorMessage = error.response ? error.response.data : 'אירעה שגיאה ברשת';
+    setNotification({
+      show: true,
+      message: errorMessage,
+      isError: true
+    });
+
+    setTimeout(() => {
+      setNotification(prev => ({ ...prev, show: false }));
+    }, 5000);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="auth-page">

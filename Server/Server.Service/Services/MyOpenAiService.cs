@@ -4,8 +4,9 @@ using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Server.Core.Interfaces.Services;
 
-public class MyOpenAiService
+public class MyOpenAiService : IMyOpenAiService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;

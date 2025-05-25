@@ -712,3 +712,19 @@ body {
     justify-content: center;
   }
 }
+.email-button {
+  background-color: #6a5acd;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.email-button:hover {
+  background-color: #5a4db0;
+}

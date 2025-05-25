@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserType } from "./Redux/slices/authSlice";
 import { School, User, MapPin, Award} from 'lucide-react';
 import "../component/Home.css";
@@ -25,6 +25,7 @@ const HomePage: React.FC = () => {
 
     const handleManagerLogin = () => {
         dispatch(setUserType('principal'));
+         sessionStorage.setItem("userType", "principal");
         navigate('/auth/login');
     };
 

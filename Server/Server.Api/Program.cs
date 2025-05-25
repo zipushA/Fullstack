@@ -43,10 +43,11 @@ builder.Services.AddScoped(typeof(IGeneryRepository<>), typeof(GeneryRepository<
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAutoMapper(typeof(MappingPostProfile));
 builder.Services.AddScoped<IS3Service, S3Service>();
-builder.Services.AddDbContext<DataContext>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddSingleton<MyOpenAiService>();
 builder.Services.AddHttpClient<GoogleMapsService>();
 builder.Services.AddScoped<MatchingService>();
+builder.Services.AddDbContext<DataContext>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -56,6 +57,10 @@ builder.Configuration["AWS:BucketName"] = Env.GetString("AWS_BUCKET_NAME");
 builder.Configuration["AWS:Region"] = Env.GetString("AWS_REGION");
 builder.Configuration["AWS:AccessKey"] = Env.GetString("AWS_ACCESS_KEY");
 builder.Configuration["AWS:SecretKey"] = Env.GetString("AWS_SECRET_KEY");
+builder.Configuration["SMTP:SMTP_SERVER"] = Env.GetString("SMTP_SERVER");
+builder.Configuration["SMTP:PORT"] = Env.GetString("SMTP_PORT");
+builder.Configuration["SMTP:GOOGLE_USER_EMAIL"] = Env.GetString("GOOGLE_USER_EMAIL");
+builder.Configuration["SMTP:PASSWORD"] = Env.GetString("PASSWORD");
 
 builder.Services.AddSwagger();
 

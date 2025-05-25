@@ -130,7 +130,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../component/Redux/slices/authSlice';
-import { useNavigate } from 'react-router-dom';
 import { loginUser } from './Services/AuthService';
 import '../component/AuthForms.css';
 
@@ -139,11 +138,8 @@ const schema = Yup.object().shape({
     email: Yup.string().email('אימייל לא תקין').required('אימייל הוא שדה חובה'),
     password: Yup.string().required('סיסמא היא שדה חובה'),
 });
-
 const LoginForm: React.FC = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
@@ -200,7 +196,7 @@ const LoginForm: React.FC = () => {
             // הסתרת ההודעה אחרי 3 שניות
             setTimeout(() => {
                 setNotification(prev => ({ ...prev, show: false }));
-                navigate('/auth/list');
+                //navigate('/auth/profile');
             }, 3000);
 
         } catch (error: any) {

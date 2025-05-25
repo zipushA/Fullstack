@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Server.Core.Interfaces.Services;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-public class GoogleMapsService
+public class GoogleMapsService : IGoogleMapsService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;

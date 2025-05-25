@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Server.Core.Interfaces.IRepository;
+using Server.Core.Interfaces.Services;
 using Server.Core.Models;
 
 [ApiController]
 [Route("api/[controller]")]
 public class MatchingController : ControllerBase
 {
-    private readonly MatchingService _matchingService;
+    private readonly IMatchingService _matchingService;
     private readonly IUserRepository _userRepository;   
 
     public MatchingController(MatchingService matchingService,IUserRepository userRepository)

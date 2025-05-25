@@ -1,0 +1,156 @@
+/* Footer */
+.footer {
+  background-color: #333;
+  padding: 60px 0;
+  color: #fff;
+  width: 100%;
+}
+
+.footer-content {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.footer-logo-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-left: 15px;
+  border: 2px solid var(--primary);
+}
+
+.footer-logo h3 {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.footer-content p {
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .hero-tagline {
+    font-size: 2.8rem;
+  }
+
+  .hero-features {
+    gap: 20px;
+  }
+
+  .about-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .logo-image {
+    width: 150px;
+    height: 150px;
+  }
+
+  .hero-tagline {
+    font-size: 2.2rem;
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+  }
+
+  .hero-features {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .primary-button {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .steps-container {
+    flex-direction: column;
+  }
+
+  .step {
+    width: 100%;
+  }
+
+  .step-connector {
+    width: 2px;
+    height: 40px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .hero-tagline {
+    font-size: 1.8rem;
+  }
+
+  .about-header h2 {
+    font-size: 2rem;
+  }
+
+  .about-card {
+    padding: 20px;
+  }
+
+  .how-it-works {
+    padding: 30px 20px;
+  }
+
+  .cta-section {
+    padding: 40px 20px;
+  }
+
+  .cta-section h3 {
+    font-size: 1.8rem;
+  }
+}

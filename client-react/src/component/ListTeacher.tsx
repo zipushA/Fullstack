@@ -1,272 +1,18 @@
 
-
-// // import React, { useEffect, useState } from 'react';
-// // import { useSelector } from 'react-redux';
-// // import { RootState } from './Redux/store';
-// // import axios from 'axios';
-// // import { Box, Card, Typography, Button, Link, CircularProgress, IconButton, Collapse } from '@mui/material';
-// // import SmartToyIcon from '@mui/icons-material/SmartToy';
-
-// // interface Teacher {
-// //   id: number;
-// //   name: string;
-// //   link: string;
-// // }
-
-// // interface AISummary {
-// //   [teacherId: number]: string;
-// // }
-
-// // const ResumeLinksList: React.FC = () => {
-// //   const user = useSelector((state: RootState) => state.auth.user);
-// //   const token = useSelector((state: RootState) => state.auth.token);
-// //   const [teachers, setTeachers] = useState<Teacher[]>([]);
-// //   const [loading, setLoading] = useState(true);
-// //   const [error, setError] = useState('');
-// //   const [aiSummaries, setAiSummaries] = useState<AISummary>({});
-// //   const [openCards, setOpenCards] = useState<{ [teacherId: number]: boolean }>({});
-
-// //   useEffect(() => {
-// //     const fetchData = async () => {
-// //       if (!user) return;
-// //       try {
-// //         const response = await axios.get(`https://localhost:7082/api/User/OrderData?id=${user.id}`, {
-// //           headers: { Authorization: `Bearer ${token}` },
-// //         });
-// //         setTeachers(response.data);
-// //       } catch (err: any) {
-// //         setError(err.response?.data || 'שגיאה בטעינת נתונים');
-// //       } finally {
-// //         setLoading(false);
-// //       }
-// //     };
-// //     fetchData();
-// //   }, [user, token]);
-
-// //   const handleDownload = async (url: string) => {
-// //     try {
-// //       const response = await axios.get(url, { responseType: 'blob' });
-// //       const link = document.createElement('a');
-// //       link.href = URL.createObjectURL(response.data);
-// //       link.download = url.split('/').pop() || 'file';
-// //       link.click();
-// //     } catch {
-// //       setError('שגיאה בהורדת הקובץ');
-// //     }
-// //   };
-
-// //   const handleAISummary = async (teacher: Teacher) => {
-// //     setAiSummaries((prev) => ({ ...prev, [teacher.id]: 'טוען ניתוח AI...' }));
-// //     try {
-// //       const response = await axios.get('https://localhost:7082/api/AI/summary', {
-// //         params: { resumeUrl: teacher.link },
-// //       });
-// //       setAiSummaries((prev) => ({ ...prev, [teacher.id]: response.data.summary }));
-// //       setOpenCards((prev) => ({ ...prev, [teacher.id]: true }));
-// //     } catch (err: any) {
-// //       setAiSummaries((prev) => ({ ...prev, [teacher.id]: 'שגיאה בניתוח קובץ' }));
-// //     }
-// //   };
-
-// //   if (loading) return <CircularProgress />;
-// //   if (error) return <Typography color="error">{error}</Typography>;
-
-// //   return (
-// //     <Box sx={{ p: 3 }}>
-// //       <Typography variant="h5" gutterBottom>
-// //         קורות חיים של מורות מתאימות
-// //       </Typography>
-// //       {teachers.length === 0 ? (
-// //         <Typography>לא נמצאו מורות תואמות.</Typography>
-// //       ) : (
-// //         teachers.map((teacher) => (
-// //           <Card key={teacher.id} sx={{ p: 2, mb: 2 }}>
-// //             <Typography variant="h6">{teacher.name}</Typography>
-// //             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 1 }}>
-// //               <Link href={teacher.link} target="_blank" rel="noopener">
-// //                 צפי בקו"ח
-// //               </Link>
-// //               <Button variant="contained" color="primary" onClick={() => handleDownload(teacher.link)}>
-// //                 הורד קובץ
-// //               </Button>
-// //               <IconButton color="secondary" onClick={() => handleAISummary(teacher)}>
-// //                 <SmartToyIcon />
-// //               </IconButton>
-// //             </Box>
-
-// //             <Collapse in={openCards[teacher.id] || false} timeout="auto" unmountOnExit>
-// //               <Box sx={{ mt: 2, p: 2, backgroundColor: '#f5f5f5', borderRadius: 2, border: '1px solid #ccc' }}>
-// //                 <Typography variant="subtitle1">סיכום AI:</Typography>
-// //                 <Typography>{aiSummaries[teacher.id]}</Typography>
-// //               </Box>
-// //             </Collapse>
-// //           </Card>
-// //         ))
-// //       )}
-// //     </Box>
-// //   );
-// // };
-
-// // export default ResumeLinksList;
-
-
-// import React, { useEffect, useState } from 'react';
-// import { useSelector } from 'react-redux';
-// import { RootState } from './Redux/store';
-// import axios from 'axios';
-// import { Box, Card, Typography, Button, Link, CircularProgress, IconButton, Collapse, Fade } from '@mui/material';
-// import SmartToyIcon from '@mui/icons-material/SmartToy';
-// import LocationOnIcon from '@mui/icons-material/LocationOn';
-
-// interface Teacher {
-//   id: number;
-//   name: string;
-//   link: string;
-// }
-
-// interface AISummary {
-//   [teacherId: number]: string;
-// }
-
-// const ResumeLinksList: React.FC = () => {
-//   const user = useSelector((state: RootState) => state.auth.user);
-//   const token = useSelector((state: RootState) => state.auth.token);
-//   const [teachers, setTeachers] = useState<Teacher[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState('');
-//   const [aiSummaries, setAiSummaries] = useState<AISummary>({});
-//   const [openCards, setOpenCards] = useState<{ [teacherId: number]: boolean }>({});
-//   const [sorting, setSorting] = useState(false);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       if (!user) return;
-//       try {
-//         const response = await axios.get(`https://localhost:7082/api/User/OrderData?id=${user.id}`, {
-//           headers: { Authorization: `Bearer ${token}` },
-//         });
-//         setTeachers(response.data);
-//       } catch (err: any) {
-//         setError(err.response?.data || 'שגיאה בטעינת נתונים');
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchData();
-//   }, [user, token]);
-
-//   const handleDownload = async (url: string) => {
-//     try {
-//       const response = await axios.get(url, { responseType: 'blob' });
-//       const link = document.createElement('a');
-//       link.href = URL.createObjectURL(response.data);
-//       link.download = url.split('/').pop() || 'file';
-//       link.click();
-//     } catch {
-//       setError('שגיאה בהורדת הקובץ');
-//     }
-//   };
-
-//   const handleAISummary = async (teacher: Teacher) => {
-//     setAiSummaries((prev) => ({ ...prev, [teacher.id]: 'טוען ניתוח AI...' }));
-//     try {
-//       const response = await axios.get('https://localhost:7082/api/AI/summary', {
-//         params: { resumeUrl: teacher.link },
-//       });
-//       setAiSummaries((prev) => ({ ...prev, [teacher.id]: response.data.summary }));
-//       setOpenCards((prev) => ({ ...prev, [teacher.id]: true }));
-//     } catch (err: any) {
-//       setAiSummaries((prev) => ({ ...prev, [teacher.id]: 'שגיאה בניתוח קובץ' }));
-//     }
-//   };
-
-//   const handleSortByDistance = async () => {
-//     if (!user) return;
-//     setSorting(true);
-//     try {
-//       const response = await axios.get('https://localhost:7082/api/Matching/sorted-teachers', {
-//         params: { principalId: user.id },
-//         headers: { Authorization: `Bearer ${token}` },
-//       });
-//       setTeachers(response.data);
-//     } catch (err: any) {
-//       setError(err.response?.data || 'שגיאה בסידור לפי קרבה');
-//     } finally {
-//       setSorting(false);
-//     }
-//   };
-
-//   if (loading) return <CircularProgress />;
-//   if (error) return <Typography color="error">{error}</Typography>;
-
-//   return (
-//     <Box sx={{ p: 3 }}>
-//       <Typography variant="h5" gutterBottom>
-//         קורות חיים של מורות מתאימות
-//       </Typography>
-
-//       <Fade in timeout={1000}>
-//         <Button
-//           variant="contained"
-//           color="secondary"
-//           startIcon={<LocationOnIcon />}
-//           onClick={handleSortByDistance}
-//           sx={{
-//             mb: 3,
-//             animation: sorting ? 'pulse 1s infinite' : 'none',
-//             '@keyframes pulse': {
-//               '0%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(0, 150, 255, 0.7)' },
-//               '70%': { transform: 'scale(1.1)', boxShadow: '0 0 0 10px rgba(0, 150, 255, 0)' },
-//               '100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(0, 150, 255, 0)' },
-//             },
-//           }}
-//         >
-//           סידור לפי קרבה
-//         </Button>
-//       </Fade>
-
-//       {teachers.length === 0 ? (
-//         <Typography>לא נמצאו מורות תואמות.</Typography>
-//       ) : (
-//         teachers.map((teacher) => (
-//           <Card key={teacher.id} sx={{ p: 2, mb: 2 }}>
-//             <Typography variant="h6">{teacher.name}</Typography>
-//             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 1 }}>
-//               <Link href={teacher.link} target="_blank" rel="noopener">
-//                 צפי בקו"ח
-//               </Link>
-//               <Button variant="contained" color="primary" onClick={() => handleDownload(teacher.link)}>
-//                 הורד קובץ
-//               </Button>
-//               <IconButton color="secondary" onClick={() => handleAISummary(teacher)}>
-//                 <SmartToyIcon />
-//               </IconButton>
-//             </Box>
-
-//             <Collapse in={openCards[teacher.id] || false} timeout="auto" unmountOnExit>
-//               <Box sx={{ mt: 2, p: 2, backgroundColor: '#f5f5f5', borderRadius: 2, border: '1px solid #ccc' }}>
-//                 <Typography variant="subtitle1">סיכום AI:</Typography>
-//                 <Typography>{aiSummaries[teacher.id]}</Typography>
-//               </Box>
-//             </Collapse>
-//           </Card>
-//         ))
-//       )}
-//     </Box>
-//   );
-// };
-
-// export default ResumeLinksList;
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from './Redux/store';
 import axios from 'axios';
 import '../component/ResumeLinksList.css';
+import SendEmailModal from './SendEmailModal';
+import { useNavigate } from 'react-router-dom';
+
 
 interface Teacher {
   id: number;
   name: string;
   link: string;
+  email: string;
 }
 
 interface AISummary {
@@ -288,7 +34,8 @@ const ResumeLinksList: React.FC = () => {
     message: '',
     isError: false
   });
-
+  const [emailModalTeacher, setEmailModalTeacher] = useState<{ name: string; email: string } | null>(null);
+  const navigate = useNavigate();
   useEffect(() => {
     // Animation for background particles
     const particles = document.querySelectorAll('.resume-particle');
@@ -329,7 +76,7 @@ const ResumeLinksList: React.FC = () => {
       message,
       isError
     });
-    
+
     setTimeout(() => {
       setNotification(prev => ({ ...prev, show: false }));
     }, 5000);
@@ -394,13 +141,13 @@ const ResumeLinksList: React.FC = () => {
         <div className="resume-circle resume-circle-1"></div>
         <div className="resume-circle resume-circle-2"></div>
         <div className="resume-circle resume-circle-3"></div>
-        
+
         {/* Animated particles */}
         {[...Array(15)].map((_, i) => (
           <div key={i} className="resume-particle"></div>
         ))}
       </div>
-      
+
       <div className="resume-container">
         <div className="resume-header">
           <div className="resume-logo">
@@ -416,8 +163,8 @@ const ResumeLinksList: React.FC = () => {
         </div>
 
         <div className="resume-actions">
-          <button 
-            className={`sort-button ${sorting ? 'loading' : ''}`} 
+          <button
+            className={`sort-button ${sorting ? 'loading' : ''}`}
             onClick={handleSortByDistance}
             disabled={sorting}
           >
@@ -485,8 +232,8 @@ const ResumeLinksList: React.FC = () => {
                         </svg>
                         <span>צפייה בקו"ח</span>
                       </a>
-                      <button 
-                        className="download-button" 
+                      <button
+                        className="download-button"
                         onClick={() => handleDownload(teacher.link, teacher.name)}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -496,8 +243,8 @@ const ResumeLinksList: React.FC = () => {
                         </svg>
                         <span>הורדה</span>
                       </button>
-                      <button 
-                        className={`ai-button ${loadingAI[teacher.id] ? 'loading' : ''}`} 
+                      <button
+                        className={`ai-button ${loadingAI[teacher.id] ? 'loading' : ''}`}
                         onClick={() => handleAISummary(teacher)}
                         disabled={loadingAI[teacher.id]}
                       >
@@ -516,10 +263,20 @@ const ResumeLinksList: React.FC = () => {
                           </>
                         )}
                       </button>
+                      <button
+                        className="email-button"
+                        onClick={() => setEmailModalTeacher({ name: teacher.name, email: teacher.email })}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M4 4h16v16H4z" fill="none" />
+                          <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                        <span>שליחת מייל</span>
+                      </button>
                     </div>
                   </div>
-                  <button 
-                    className={`toggle-button ${openCards[teacher.id] ? 'open' : ''}`} 
+                  <button
+                    className={`toggle-button ${openCards[teacher.id] ? 'open' : ''}`}
                     onClick={() => toggleCard(teacher.id)}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -527,7 +284,7 @@ const ResumeLinksList: React.FC = () => {
                     </svg>
                   </button>
                 </div>
-                
+
                 {openCards[teacher.id] && (
                   <div className="resume-card-content">
                     <div className="ai-summary">
@@ -582,6 +339,15 @@ const ResumeLinksList: React.FC = () => {
           </div>
         </div>
       )}
+      {emailModalTeacher && (
+        <SendEmailModal
+          open={true}
+          onClose={() => setEmailModalTeacher(null)}
+          teacherEmail={emailModalTeacher.email}
+          teacherName={emailModalTeacher.name}
+        />
+      )}
+
     </div>
   );
 };

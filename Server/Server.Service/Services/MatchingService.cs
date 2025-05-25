@@ -1,7 +1,8 @@
 ﻿using Server.Core.Interfaces.IRepository;
+using Server.Core.Interfaces.Services;
 using Server.Core.Models;
 
-public class MatchingService
+public class MatchingService : IMatchingService
 {
     private readonly IUserRepository _userRepository;
     private readonly GoogleMapsService _mapsService;
