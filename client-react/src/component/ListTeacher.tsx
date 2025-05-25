@@ -136,13 +136,12 @@ const ResumeLinksList: React.FC = () => {
 
   return (
     <div className="resume-page">
-      {/* Background Elements */}
-      <div className="resume-background">
-        <div className="resume-circle resume-circle-1"></div>
+
+        <div className="resume-background">
+       <div className="resume-circle resume-circle-1"></div>
         <div className="resume-circle resume-circle-2"></div>
         <div className="resume-circle resume-circle-3"></div>
 
-        {/* Animated particles */}
         {[...Array(15)].map((_, i) => (
           <div key={i} className="resume-particle"></div>
         ))}
@@ -184,9 +183,9 @@ const ResumeLinksList: React.FC = () => {
               </>
             )}
           </button>
-        </div>
+        </div> 
 
-        {loading ? (
+         {loading ? (
           <div className="resume-loading">
             <div className="resume-spinner"></div>
             <p>טוען רשימת מורות...</p>
@@ -338,15 +337,16 @@ const ResumeLinksList: React.FC = () => {
             <p>{notification.message}</p>
           </div>
         </div>
-      )}
+      )} 
       {emailModalTeacher && (
         <SendEmailModal
           open={true}
           onClose={() => setEmailModalTeacher(null)}
-          teacherEmail={emailModalTeacher.email}
-          teacherName={emailModalTeacher.name}
+          teacherEmail={emailModalTeacher?.email}
+          teacherName={emailModalTeacher?.name}
+         
         />
-      )}
+       )} 
 
     </div>
   );

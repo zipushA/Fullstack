@@ -27,13 +27,13 @@
     --content-width: 1200px;
 }
 
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     direction: rtl;
-}
-
+} */
+/* 
 html, body {
     margin: 0;
     padding: 0;
@@ -43,7 +43,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .home-page {
     width: 100%;
@@ -53,8 +53,6 @@ html, body {
     box-sizing: border-box;
 }
 
-
-/* Content container */
 .content-container {
     max-width: var(--content-width);
     margin: 0 auto;
@@ -63,7 +61,6 @@ html, body {
     z-index: 10;
 }
 
-/* Hero Section */
 .hero-section {
     position: relative;
     height: 100vh;
@@ -73,7 +70,7 @@ html, body {
     justify-content: center;
     overflow: hidden;
     background-color: #f5f5dc;
-    /* Beige background */
+   
 }
 
 .hero-background {
@@ -85,7 +82,6 @@ html, body {
     z-index: 0;
 }
 
-/* Animated particles */
 .particles-container {
     position: absolute;
     top: 0;
@@ -128,7 +124,6 @@ html, body {
     }
 }
 
-/* Animated gradient overlay */
 .gradient-overlay {
     position: absolute;
     top: 0;
@@ -155,7 +150,6 @@ html, body {
     padding: 0 20px;
 }
 
-/* Logo */
 .logo-container {
     position: relative;
     display: flex;
@@ -211,7 +205,6 @@ html, body {
     color: #555;
 }
 
-/* Hero Features */
 .hero-features {
     display: flex;
     justify-content: center;
@@ -260,7 +253,6 @@ html, body {
     font-weight: 500;
 }
 
-/* Hero Buttons */
 .hero-buttons {
     display: flex;
     justify-content: center;
@@ -360,8 +352,6 @@ html, body {
         transform: translateY(-5px);
     }
 }
-
-/* About Section */
 .about-section {
     padding: 100px 0;
     background-color: #fff;
@@ -412,7 +402,6 @@ html, body {
     margin: 0 auto 60px;
     padding: 0 20px;
 }
-
 .about-card {
     background-color: #fff;
     border-radius: var(--radius-lg);
@@ -456,18 +445,15 @@ html, body {
     margin-bottom: 20px;
     color: #555;
 }
-
 .feature-list {
     list-style: none;
     padding: 0;
 }
-
 .feature-item {
     display: flex;
     align-items: flex-start;
     margin-bottom: 15px;
 }
-
 .feature-check {
     color: var(--primary);
     font-size: 1.2rem;
@@ -475,8 +461,6 @@ html, body {
     margin-left: 15px;
     flex-shrink: 0;
 }
-
-/* How It Works */
 .how-it-works {
     max-width: var(--content-width);
     margin: 0 auto 60px;
@@ -570,8 +554,6 @@ html, body {
 .step-connector::after {
     right: 0;
 }
-
-/* CTA Section */
 .cta-section {
     max-width: var(--content-width);
     margin: 0 auto;
@@ -637,7 +619,6 @@ html, body {
     background-color: rgba(64, 190, 190, 0.1);
 }
 
-/* Footer */
 .footer {
     background-color: #333;
     padding: 60px 0;
@@ -692,8 +673,6 @@ html, body {
 .footer-links a:hover {
     color: var(--primary);
 }
-
-/* Responsive Adjustments */
 @media (max-width: 992px) {
     .hero-tagline {
         font-size: 2.8rem;
