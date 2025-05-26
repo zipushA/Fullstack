@@ -3,12 +3,10 @@
 
 import type React from "react"
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "./Redux/store"
-//import { Button } from "./UI/Button"
 import { Input } from "./UI/Input"
 import { Label } from "./UI/Label"
-//import { Card, CardContent, CardHeader, CardTitle } from "./UI/Card"
 import { Checkbox } from "./UI/Checkbox"
 import { Progress } from "./UI/Progress"
 import { User, Mail, Upload, Calendar, MapPin, Users, Heart, Save, FileText, AlertCircle, CheckCircle } from "lucide-react"
@@ -34,6 +32,8 @@ const UserEditForm: React.FC = () => {
     residentialArea: "",
   })
   const [fileName, setFileName] = useState("")
+  const userRole = sessionStorage.getItem("userType") as 'teacher' | 'principal' || 'teacher';
+  const isPrincipal = userRole === 'principal';
   const [progress, setProgress] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
@@ -138,6 +138,7 @@ const UserEditForm: React.FC = () => {
       await axios.put(`${API_MATCHING}/${formData.matchingDataId}`, matchingData)
       setSaveStatus("success")
       showNotification("הפרטים עודכנו בהצלחה", false)
+
       setTimeout(() => setSaveStatus("idle"), 3000)
     } catch (err) {
       console.error("❌ שגיאה בעדכון:", err)
@@ -250,6 +251,7 @@ const UserEditForm: React.FC = () => {
           </div>
 
           {/* File Upload Section */}
+          {!isPrincipal&&
           <div className="form-section">
             <div className="section-header">
               <div className="section-icon file">
@@ -309,7 +311,7 @@ const UserEditForm: React.FC = () => {
               )}
             </div>
           </div>
-
+}
           {/* Matching Data Section */}
           <div className="form-section">
             <div className="section-header">

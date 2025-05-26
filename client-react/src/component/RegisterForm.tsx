@@ -16,7 +16,14 @@ const schema = Yup.object().shape({
   email: Yup.string().email('אימייל לא תקין').required('אימייל הוא שדה חובה'),
   password: Yup.string().required('סיסמא היא שדה חובה'),
   matchingDataId: Yup.number().required('dataId הוא שדה חובה'),
-  link: Yup.string().required('קישור הוא שדה חובה'),
+ link: Yup.string()
+  .default("")
+  .transform((value) => value ?? "") // מחליף undefined ב־"" תמיד
+  .when("role", {
+    is: (val: string) => val !== "principal",
+    then: (schema) => schema.required("יש להעלות קובץ קורות חיים"),
+    otherwise: (schema) => schema.notRequired(),
+}),
   role: Yup.string().required('תפקיד הוא שדה חובה'),
 });
 
@@ -25,6 +32,7 @@ const RegisterForm: React.FC = () => {
   const storedDataId = sessionStorage.getItem('dataId');
   const matchingDataId = storedDataId ? parseInt(storedDataId, 10) : 0;
   const userRole = sessionStorage.getItem("userType") as 'teacher' | 'principal' || 'teacher';
+  const isPrincipal = userRole === 'principal';
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<UserRegister>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -74,22 +82,22 @@ const RegisterForm: React.FC = () => {
     }
 
     let strength = 0;
-    
+
     // Length check
     if (passwordValue.length >= 8) strength += 1;
-    
+
     // Contains number
     if (/\d/.test(passwordValue)) strength += 1;
-    
+
     // Contains lowercase
     if (/[a-z]/.test(passwordValue)) strength += 1;
-    
+
     // Contains uppercase
     if (/[A-Z]/.test(passwordValue)) strength += 1;
-    
+
     // Contains special character
     if (/[^A-Za-z0-9]/.test(passwordValue)) strength += 1;
-    
+
     setPasswordStrength(strength);
   }, [passwordValue]);
 
@@ -116,107 +124,63 @@ const RegisterForm: React.FC = () => {
     const file = event.target.files?.[0];
     if (file) {
       setFileName(file.name);
-       const presignedUrl = await RequestService.getPresignedUrl(file.name, file.type);
+      const presignedUrl = await RequestService.getPresignedUrl(file.name, file.type);
       await RequestService.uploadFile(presignedUrl, file, setProgress);
       const publicUrl = `https://zipushresume.s3.amazonaws.com/resume/${file.name}`; // החלף ל-S3 שלך
       setValue('link', publicUrl);
     }
   };
-  // const onSubmit: SubmitHandler<UserRegister> = async (data) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const userPostModel: UserPostModel = {
-  //       name: data.name,
-  //       email: data.email,
-  //       password: data.password,
-  //       matchingDataId: data.matchingDataId,
-  //       link: data.link
-  //     };
+  const onSubmit: SubmitHandler<UserRegister> = async (data) => {
+    setIsLoading(true);
 
-  //     const res = await registerUser(userPostModel, data.role);
-  //     dispatch(setUser({
-  //       user: res.data.user,
-  //       token: res.data.token,
-  //     }));
-      
-  //     setNotification({
-  //       show: true,
-  //       message: 'הרשמה הצליחה!',
-  //       isError: false
-  //     });
-      
-  //     // הסתרת ההודעה אחרי 3 שניות
-  //     setTimeout(() => {
-  //       setNotification(prev => ({ ...prev, show: false }));
-  //     }, 3000);
-      
-  //   } catch (error: any) {
-  //     const errorMessage = error.response ? error.response.data : 'אירעה שגיאה ברשת';
-  //     setNotification({
-  //       show: true,
-  //       message: errorMessage,
-  //       isError: true
-  //     });
-      
-  //     // הסתרת הודעת השגיאה אחרי 5 שניות
-  //     setTimeout(() => {
-  //       setNotification(prev => ({ ...prev, show: false }));
-  //     }, 5000);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-const onSubmit: SubmitHandler<UserRegister> = async (data) => {
-  setIsLoading(true);
+    const userPostModel: UserPostModel = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      matchingDataId: data.matchingDataId,
+      link: data.link
+    };
 
-  const userPostModel: UserPostModel = {
-    name: data.name,
-    email: data.email,
-    password: data.password,
-    matchingDataId: data.matchingDataId,
-    link: data.link
+    // הדפסת הנתונים שנשלחים
+    console.log("📤 נתונים שנשלחים לשרת:", userPostModel);
+
+    console.log("📤 תפקיד שנבחר:", userRole);
+    try {
+      const res = await registerUser(userPostModel, data.role);
+
+      dispatch(setUser({
+        user: res.data.user,
+        token: res.data.token,
+      }));
+
+      setNotification({
+        show: true,
+        message: 'הרשמה הצליחה!',
+        isError: false
+      });
+
+      setTimeout(() => {
+        setNotification(prev => ({ ...prev, show: false }));
+      }, 3000);
+
+    } catch (error: any) {
+      console.error("❌ שגיאה מהשרת:", error);
+      console.log("❌ תגובת השגיאה מהשרת:", error.response?.data);
+
+      const errorMessage = error.response ? error.response.data : 'אירעה שגיאה ברשת';
+      setNotification({
+        show: true,
+        message: errorMessage,
+        isError: true
+      });
+
+      setTimeout(() => {
+        setNotification(prev => ({ ...prev, show: false }));
+      }, 5000);
+    } finally {
+      setIsLoading(false);
+    }
   };
-
-  // הדפסת הנתונים שנשלחים
-  console.log("📤 נתונים שנשלחים לשרת:", userPostModel);
-
-   console.log("📤 תפקיד שנבחר:",userRole);
-  try {
-    const res = await registerUser(userPostModel, data.role);
-    
-    dispatch(setUser({
-      user: res.data.user,
-      token: res.data.token,
-    }));
-    
-    setNotification({
-      show: true,
-      message: 'הרשמה הצליחה!',
-      isError: false
-    });
-
-    setTimeout(() => {
-      setNotification(prev => ({ ...prev, show: false }));
-    }, 3000);
-
-  } catch (error: any) {
-    console.error("❌ שגיאה מהשרת:", error);
-    console.log("❌ תגובת השגיאה מהשרת:", error.response?.data);
-
-    const errorMessage = error.response ? error.response.data : 'אירעה שגיאה ברשת';
-    setNotification({
-      show: true,
-      message: errorMessage,
-      isError: true
-    });
-
-    setTimeout(() => {
-      setNotification(prev => ({ ...prev, show: false }));
-    }, 5000);
-  } finally {
-    setIsLoading(false);
-  }
-};
 
   return (
     <div className="auth-page">
@@ -224,12 +188,12 @@ const onSubmit: SubmitHandler<UserRegister> = async (data) => {
         <div className="auth-circle auth-circle-1"></div>
         <div className="auth-circle auth-circle-2"></div>
         <div className="auth-circle auth-circle-3"></div>
-        
+
         {[...Array(15)].map((_, i) => (
           <div key={i} className="auth-particle"></div>
         ))}
       </div>
-      
+
       <div className="auth-container">
         <div className="auth-card-wrapper">
           <div className="auth-card register-card">
@@ -248,7 +212,7 @@ const onSubmit: SubmitHandler<UserRegister> = async (data) => {
                 <h1 className="auth-title">הרשמה</h1>
                 <p className="auth-subtitle">צור חשבון חדש ותתחיל להשתמש בפלטפורמה</p>
               </div>
-              
+
               <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
                 <div className="form-row">
                   <div className={`form-floating-group ${activeField === 'name' ? 'active' : ''} ${errors.name ? 'error' : ''}`}>
@@ -309,8 +273,8 @@ const onSubmit: SubmitHandler<UserRegister> = async (data) => {
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                       </svg>
                     </div>
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       className="password-toggle"
                       onClick={handleClickShowPassword}
                     >
@@ -341,32 +305,27 @@ const onSubmit: SubmitHandler<UserRegister> = async (data) => {
                     </div>
                   </div>
                 )}
-
-                <div className="form-row">
-                  <div className="file-upload-wrapper">
-                    <input
-                      id="file-upload"
-                      type="file"
-                      onChange={handleFileUpload}
-                      className="file-input"
-                    />
-                    <label htmlFor="file-upload" className="file-upload-label">
-                      <div className="file-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                          <polyline points="17 8 12 3 7 8"></polyline>
-                          <line x1="12" y1="3" x2="12" y2="15"></line>
-                        </svg>
-                      </div>
-                      <div className="file-info">
-                        <span className="file-title">{fileName || 'העלאת קובץ'}</span>
-                        <span className="file-subtitle">{fileName ? 'הקובץ נבחר' : 'גרור קובץ לכאן או לחץ לבחירה'}</span>
-                      </div>
-                    </label>
+                {!isPrincipal && (
+                  <div className="form-row">
+                    <div className="file-upload-wrapper">
+                      <input
+                        id="file-upload"
+                        type="file"
+                        onChange={handleFileUpload}
+                        className="file-input"
+                      />
+                      <label htmlFor="file-upload" className="file-upload-label">
+                        <div className="file-icon">...</div>
+                        <div className="file-info">
+                          <span className="file-title">{fileName || 'העלאת קובץ'}</span>
+                          <span className="file-subtitle">{fileName ? 'הקובץ נבחר' : 'גרור קובץ לכאן או לחץ לבחירה'}</span>
+                        </div>
+                      </label>
+                    </div>
                   </div>
-                </div>
+                )}
 
-                {linkValue && (
+                {!isPrincipal&&linkValue && (
                   <div className="form-row">
                     <div className="link-preview">
                       <div className="link-icon">
@@ -385,19 +344,8 @@ const onSubmit: SubmitHandler<UserRegister> = async (data) => {
 
                 <input type="hidden" {...register("matchingDataId")} />
                 <input type="hidden" {...register("role")} />
-
-                {/* <div className="form-row">
-                  <div className="terms-checkbox">
-                    <label className="checkbox-container">
-                      <input type="checkbox" />
-                      <span className="checkmark"></span>
-                      <span className="checkbox-text">אני מסכים/ה ל<a href="#">תנאי השימוש</a> ול<a href="#">מדיניות הפרטיות</a></span>
-                    </label>
-                  </div>
-                </div> */}
-
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className={`auth-button ${isLoading ? 'loading' : ''}`}
                   disabled={isLoading}
                 >
@@ -410,11 +358,11 @@ const onSubmit: SubmitHandler<UserRegister> = async (data) => {
               </form>
 
               <div className="auth-footer">
-                <p>יש לך כבר חשבון?<span style={{width: '10px'}}></span> <a href="/auth/login" className="auth-link">התחבר</a></p>
+                <p>יש לך כבר חשבון?<span style={{ width: '10px' }}></span> <a href="/auth/login" className="auth-link">התחבר</a></p>
               </div>
             </div>
           </div>
-          
+
           <div className="auth-decoration">
             <div className="decoration-image">
               <img src="/logo.jpg" alt="לוגו מורה בלחיצת כפתור" />

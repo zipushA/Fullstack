@@ -4,14 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { setUserType } from "./Redux/slices/authSlice";
-import { School, User, MapPin, Award} from 'lucide-react';
+import { School, User, MapPin, Award } from 'lucide-react';
 import "../component/Home.css";
+import SendEmailModal from "./SendEmailModal";
 
 
 const HomePage: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isLoaded, setIsLoaded] = useState(false);
+     const [isModalOpen, setModalOpen] = useState(false)
     const aboutRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll();
     const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -25,7 +27,7 @@ const HomePage: React.FC = () => {
 
     const handleManagerLogin = () => {
         dispatch(setUserType('principal'));
-         sessionStorage.setItem("userType", "principal");
+        sessionStorage.setItem("userType", "principal");
         navigate('/auth/login');
     };
 
@@ -378,11 +380,23 @@ const HomePage: React.FC = () => {
                         <div className="footer-links">
                             <a href="#">תנאי שימוש</a>
                             <a href="#">מדיניות פרטיות</a>
-                            <a href="#">צור קשר</a>
+
+                            <a href="#" onClick={(e) => {
+                                e.preventDefault()
+                                setModalOpen(true)
+                            }}>
+                                צור קשר
+                            </a>
                         </div>
                     </div>
                 </footer>
             </div>
+            <SendEmailModal
+                open={isModalOpen}
+                onClose={() => setModalOpen(false)}
+                teacherEmail="teachtaksmart@gmail.com"  // תחליף למייל האמיתי
+                teacherName="פנה למערכת"            // תחליף לשם האמיתי
+            />
         </div>
     );
 };

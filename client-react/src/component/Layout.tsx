@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import "./Footer.css"
+import SendEmailModal from './SendEmailModal';
 const Layout: React.FC = () => {
+  const [isModalOpen, setModalOpen] = useState(false)
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -19,10 +21,23 @@ const Layout: React.FC = () => {
           <div className="footer-links">
             <a href="#">תנאי שימוש</a>
             <a href="#">מדיניות פרטיות</a>
-            <a href="#">צור קשר</a>
+
+            <a href="#" onClick={(e) => {
+              e.preventDefault()
+              setModalOpen(true)
+            }}>
+              צור קשר
+            </a>
           </div>
         </div>
+
       </footer>
+        <SendEmailModal
+        open={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        teacherEmail="teachtaksmart@gmail.com"  // תחליף למייל האמיתי
+        teacherName="פנה למערכת"            // תחליף לשם האמיתי
+      />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { Data } from "./dataType";
 
 export type UserRegister = {
-    id?: number,
+   // id?: number,
     name: string; 
     email: string;
     password: string;
@@ -27,4 +27,5 @@ export type UserPostModel = {
     password: string;
     matchingDataId:number;
     link:string;
+    
 }
