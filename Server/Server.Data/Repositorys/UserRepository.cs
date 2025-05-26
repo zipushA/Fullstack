@@ -19,6 +19,11 @@ namespace Server.Data.Repositorys
         {
             _dataSet = context.Set<User>();
         }
+        public override async Task<IEnumerable<User>> GetAsync()
+        {
+            return await _dataSet.Include(u => u.RoleList).ToListAsync();
+        }
+
         public async Task<IEnumerable<User>> GetUsersDataAsync(string role)
         {
             return await _dataSet.Where(u => u.RoleList.Any(r => r.RoleName == role)).Include(t => t.Data) .ToListAsync();
@@ -26,7 +31,7 @@ namespace Server.Data.Repositorys
         public async Task<User?> GetByIdDataAsync(int id)
         {
             return await _dataSet.Where(t => t.Id == id)
-                 .Include(t => t.Data).FirstOrDefaultAsync();
+                 .Include(t => t.Data).Include(u => u.RoleList).FirstOrDefaultAsync();
         }
         public async Task<IEnumerable<User>> GetOrderDataAsync(int id)
         {

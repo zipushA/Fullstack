@@ -25,7 +25,7 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${environment.apiUrl}/User`).pipe(
       retry(1),
-      tap(users => console.log(`Fetched ${users.length} users`)),
+      tap(users => console.log(users)),
       catchError(error => this.handleError(error, 'getUsers'))
     );
   }
@@ -42,7 +42,7 @@ export class UserService {
   getUserById(id: number): Observable<UserDto> {
     return this.http.get<UserDto>(`${environment.apiUrl}/User/Full/${id}`).pipe(
       retry(1),
-      tap(user => console.log(`Fetched user: ${user.name}`)),
+      tap(user => console.log(user)),
       catchError(error => this.handleError(error, `getUserById(${id})`))
     );
   }

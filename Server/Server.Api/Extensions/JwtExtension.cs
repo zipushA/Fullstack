@@ -31,9 +31,9 @@ namespace Server.Api.Extensions
         {
             builder.Services.AddAuthorization(options =>
             {
-                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("Principal", policy => policy.RequireRole("Principal"));
-                options.AddPolicy("Teacher", policy => policy.RequireRole("Teacher"));
+                options.AddPolicy("admin", policy => policy.RequireRole("admin"));
+                options.AddPolicy("principal", policy => policy.RequireRole("principal"));
+                options.AddPolicy("teacher", policy => policy.RequireRole("teacher"));
                 //options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
             });
         }

@@ -11,11 +11,12 @@ namespace Server.Data.Repositorys
     public class GeneryRepository<T>(DataContext dataContext) : IGeneryRepository<T> where T : class
     {
         private readonly DbSet<T> _dataSet = dataContext.Set<T>();
-        public async Task<IEnumerable<T>> GetAsync()
+      
+        public virtual async Task<IEnumerable<T>> GetAsync()
         {
             return await _dataSet.ToListAsync();
         }
-        public async Task<T?> GetByIdAsync(int id)
+        public virtual async Task<T?> GetByIdAsync(int id)
         {
             return await _dataSet.FindAsync(id);
         }

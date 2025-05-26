@@ -2,7 +2,6 @@ export interface User {
     id: number
     name:string
     email: string
-    role?: string
     data?: any
      roleList: Role[];
   }

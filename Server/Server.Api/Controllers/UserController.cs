@@ -13,7 +13,6 @@ namespace Server.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
     public class UserController(IUserService userService,IMapper mapper,IS3Service s3Service) : ControllerBase
     {
 
@@ -24,8 +23,8 @@ namespace Server.Api.Controllers
 
         // GET: api/<TeacherController>
         [HttpGet]
-        //[Authorize(Policy = "admin")]
 
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<UserDto>>> Get()
         {
             var result = await _userService.GetAllAsync();
@@ -37,6 +36,7 @@ namespace Server.Api.Controllers
         }
 
         [HttpGet("Full")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetFull([FromQuery] string role)
         {
           
@@ -48,6 +48,7 @@ namespace Server.Api.Controllers
             return Ok(result);
         }
         [HttpGet("OrderData")]
+      //  [Authorize(Roles = "admin,principal")]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetOrderData(int id)
         {
             var result = await _userService.GetOrderDataAsync(id);

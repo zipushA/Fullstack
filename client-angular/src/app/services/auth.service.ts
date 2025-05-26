@@ -68,10 +68,10 @@ export class AuthService {
 
   hasRole(roles: string[]): boolean {
     const user = this.currentUserValue
-    if (!user || !user.role) {
+    if (!user || !user.roleList[0]?.roleName ) {
       return false
     }
-    return roles.includes(user.role)
+    return roles.includes(user.roleList[0]?.roleName )
   }
 
   private setSession(authResult: LoginResponseDto): void {
