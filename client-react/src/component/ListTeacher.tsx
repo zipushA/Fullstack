@@ -5,7 +5,7 @@ import { RootState } from './Redux/store';
 import axios from 'axios';
 import '../component/ResumeLinksList.css';
 import SendEmailModal from './SendEmailModal';
-import { useNavigate } from 'react-router-dom';
+
 
 
 interface Teacher {
@@ -35,7 +35,6 @@ const ResumeLinksList: React.FC = () => {
     isError: false
   });
   const [emailModalTeacher, setEmailModalTeacher] = useState<{ name: string; email: string } | null>(null);
-  const navigate = useNavigate();
   useEffect(() => {
     // Animation for background particles
     const particles = document.querySelectorAll('.resume-particle');
@@ -96,6 +95,7 @@ const ResumeLinksList: React.FC = () => {
   };
 
   const handleAISummary = async (teacher: Teacher) => {
+    setOpenCards((prev) => ({ ...prev, [teacher.id]: true }));
     setLoadingAI(prev => ({ ...prev, [teacher.id]: true }));
     setAiSummaries((prev) => ({ ...prev, [teacher.id]: '' }));
     try {
@@ -129,11 +129,6 @@ const ResumeLinksList: React.FC = () => {
       setSorting(false);
     }
   };
-
-  const toggleCard = (teacherId: number) => {
-    setOpenCards(prev => ({ ...prev, [teacherId]: !prev[teacherId] }));
-  };
-
   return (
     <div className="resume-page">
 
@@ -273,17 +268,8 @@ const ResumeLinksList: React.FC = () => {
                         <span>שליחת מייל</span>
                       </button>
                     </div>
-                  </div>
-                  <button
-                    className={`toggle-button ${openCards[teacher.id] ? 'open' : ''}`}
-                    onClick={() => toggleCard(teacher.id)}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                  </button>
+                  </div>             
                 </div>
-
                 {openCards[teacher.id] && (
                   <div className="resume-card-content">
                     <div className="ai-summary">

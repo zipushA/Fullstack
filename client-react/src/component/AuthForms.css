@@ -803,3 +803,36 @@ body {
   text-decoration: none;
   transition: var(--transition);
 }
+/* למקם את ההודעה בראש הדף */
+.notification {
+  position: absolute;
+  top: 20px;
+  right: 50%;
+  transform: translateX(50%);
+  z-index: 9999;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: 500;
+  direction: rtl;
+}
+
+.notification.success {
+  background-color: #e0f7f5;
+  color: #00796b;
+  border: 1px solid #00a3a3;
+}
+
+.notification.error {
+  background-color: #ffecec;
+  color:  #00796b;
+  border: 1px solid #00a3a3;
+}
+
+.notification-icon svg {
+  width: 24px;
+  height: 24px;
+}

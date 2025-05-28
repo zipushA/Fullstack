@@ -3,13 +3,13 @@
 
 import type React from "react"
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import type { RootState } from "./Redux/store"
 import { Input } from "./UI/Input"
 import { Label } from "./UI/Label"
 import { Checkbox } from "./UI/Checkbox"
 import { Progress } from "./UI/Progress"
-import { User, Mail, Upload, Calendar, MapPin, Users, Heart, Save, FileText, AlertCircle, CheckCircle } from "lucide-react"
+import { User, Mail, Upload, Calendar, MapPin, Users, Heart, Save, FileText, AlertCircle, CheckCircle, School } from "lucide-react"
 import axios from "axios"
 import RequestService from "./Services/RequestService"
 import "./Profile.css"
@@ -24,6 +24,7 @@ const UserEditForm: React.FC = () => {
     password: "",
     link: "",
     matchingDataId: 0,
+    schoolName: ""
   })
   const [matchingData, setMatchingData] = useState({
     seniority: 0,
@@ -68,6 +69,7 @@ const UserEditForm: React.FC = () => {
         password: user.password,
         link: user.link,
         matchingDataId: user.matchingDataId,
+        schoolName: user.schoolName || ""
       })
 
       axios
@@ -150,7 +152,7 @@ const UserEditForm: React.FC = () => {
     }
   }
 
- 
+
   if (!user) {
     return (
       <div className="edit-page">
@@ -251,67 +253,67 @@ const UserEditForm: React.FC = () => {
           </div>
 
           {/* File Upload Section */}
-          {!isPrincipal&&
-          <div className="form-section">
-            <div className="section-header">
-              <div className="section-icon file">
-                <FileText />
+          {!isPrincipal &&
+            <div className="form-section">
+              <div className="section-header">
+                <div className="section-icon file">
+                  <FileText />
+                </div>
+                <h2 className="section-title">קורות חיים</h2>
               </div>
-              <h2 className="section-title">קורות חיים</h2>
-            </div>
 
-            <div className="upload-section">
-              <button
-                type="button"
-                className={`upload-button ${isUploading ? "loading" : ""}`}
-                onClick={() => document.getElementById("file-upload")?.click()}
-                disabled={isUploading}
-              >
-                {isUploading ? (
-                  <div className="button-loader">
-                    <div className="spinner"></div>
-                  </div>
-                ) : (
-                  <div className="button-icon">
-                    <Upload />
+              <div className="upload-section">
+                <button
+                  type="button"
+                  className={`upload-button ${isUploading ? "loading" : ""}`}
+                  onClick={() => document.getElementById("file-upload")?.click()}
+                  disabled={isUploading}
+                >
+                  {isUploading ? (
+                    <div className="button-loader">
+                      <div className="spinner"></div>
+                    </div>
+                  ) : (
+                    <div className="button-icon">
+                      <Upload />
+                    </div>
+                  )}
+                  <span>{isUploading ? "מעלה קובץ..." : "העלאת קובץ קורות חיים"}</span>
+                </button>
+                <input
+                  id="file-upload"
+                  type="file"
+                  className="hidden"
+                  onChange={handleFileUpload}
+                  accept=".pdf,.doc,.docx"
+                />
+
+                {fileName && (
+                  <div className="file-info success">
+                    <CheckCircle />
+                    <span>קובץ נבחר: {fileName}</span>
                   </div>
                 )}
-                <span>{isUploading ? "מעלה קובץ..." : "העלאת קובץ קורות חיים"}</span>
-              </button>
-              <input
-                id="file-upload"
-                type="file"
-                className="hidden"
-                onChange={handleFileUpload}
-                accept=".pdf,.doc,.docx"
-              />
 
-              {fileName && (
-                <div className="file-info success">
-                  <CheckCircle />
-                  <span>קובץ נבחר: {fileName}</span>
-                </div>
-              )}
-
-              {formData.link && (
-                <div className="file-info link">
-                  <FileText />
-                  <span>קישור: {formData.link}</span>
-                </div>
-              )}
-
-              {progress > 0 && progress < 100 && (
-                <div className="upload-progress">
-                  <div className="progress-info">
-                    <span className="progress-text">העלאה בתהליך...</span>
-                    <span className="progress-percentage">{progress}%</span>
+                {formData.link && (
+                  <div className="file-info link">
+                    <FileText />
+                    <span>קישור: {formData.link}</span>
                   </div>
-                  <Progress value={progress} className="progress-bar" />
-                </div>
-              )}
+                )}
+
+                {progress > 0 && progress < 100 && (
+                  <div className="upload-progress">
+                    <div className="progress-info">
+                      <span className="progress-text">העלאה בתהליך...</span>
+                      <span className="progress-percentage">{progress}%</span>
+                    </div>
+                    <Progress value={progress} className="progress-bar" />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-}
+          }
           {/* Matching Data Section */}
           <div className="form-section">
             <div className="section-header">
@@ -340,6 +342,22 @@ const UserEditForm: React.FC = () => {
                   <Calendar className="input-icon" />
                 </div>
               </div>
+              {isPrincipal && (
+                <div className="form-field">
+                  <Label htmlFor="schoolName" className="field-label">שם בית ספר</Label>
+                  <div className="input-group">
+                    <Input
+                      id="schoolName"
+                      name="schoolName"
+                      value={formData.schoolName}
+                      onChange={handleChange}
+                      className="field-input"
+                      placeholder="הכנס שם בית ספר"
+                    />
+                    <School className="input-icon" />
+                  </div>
+                </div>
+              )}
 
               <div className="form-field">
                 <Label htmlFor="residentialArea" className="field-label">

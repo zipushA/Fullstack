@@ -1,13 +1,11 @@
 
 "use client"
 
-import  React from "react"
+import React from "react"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import type { RootState } from "./Redux/store"
-//import { Card, CardContent, CardHeader, CardTitle } from "./UI/Card"
 import { Badge } from "./UI/Badge"
-//import { Separator } from "./UI/Saparator"
 import { User, Mail, Calendar, MapPin, Users, Heart, Edit3, Shield, Award, Eye } from "lucide-react"
 import matchingService, { type MatchingData } from "./Services/matchingService"
 import "./Profile.css"
@@ -15,16 +13,13 @@ import { Button } from "./UI/Button"
 import { useNavigate } from "react-router-dom"
 const UserProfile: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.user)
-  const role=useSelector((state: RootState) => state.auth.userType)
-  console.log("roleeee",role);
-  
+  const role = useSelector((state: RootState) => state.auth.userType)
   const [matchingData, setMatchingData] = useState<MatchingData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
-const navigate=useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
-    // Animation for background particles
     const particles = document.querySelectorAll(".profile-particle")
     particles.forEach((particle: any) => {
       const randomX = Math.random() * 100
@@ -117,7 +112,7 @@ const navigate=useNavigate();
 
         {/* Profile Actions */}
         <div className="profile-actions">
-          <Button className="action-button edit-button" onClick={()=>navigate('/Auth/edit')}>
+          <Button className="action-button edit-button" onClick={() => navigate('/Auth/edit')}>
             <div className="button-icon">
               <Edit3 />
             </div>

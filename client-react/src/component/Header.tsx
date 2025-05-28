@@ -1,15 +1,25 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './Redux/store';
 import { logout } from './Redux/slices/authSlice';
-import { Avatar, Menu, MenuItem, IconButton, Tooltip, AppBar, Toolbar, Typography, Box } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Avatar,
+  IconButton,
+  Menu,
+  MenuItem,
+  Tooltip
+} from '@mui/material';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,50 +41,68 @@ const Header: React.FC = () => {
     handleMenuClose();
   };
 
+  const handleEdit = () => {
+    navigate('/Auth/edit');
+    handleMenuClose();
+  };
+
   return (
-    <AppBar position="static" sx={{ background: '#2c3e50' }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+    <AppBar position="static" sx={{ backgroundColor: '#333' }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+        {/* לוגו */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <img
             src="/logo.jpg"
-            alt="Logo"
-            style={{ height: 40, cursor: 'pointer' }}
+            alt="לוגו"
+            style={{ height: 40, cursor: 'pointer', borderRadius: '50%' }}
             onClick={() => navigate('/')}
           />
           <Typography
             variant="h6"
-            component="div"
-            sx={{ cursor: 'pointer' }}
+            sx={{ color: '#40bebe', cursor: 'pointer' }}
             onClick={() => navigate('/')}
           >
-            מורה בלחיצת כפתור
+        טקTEACH
           </Typography>
         </Box>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-          <Typography
-            variant="button"
-            sx={{ cursor: 'pointer', color: 'white' }}
-            onClick={() => navigate('/Auth/about')}
+        {/* קישורים ממורכזים */}
+        <Box sx={{
+          display: 'flex',
+          flexGrow: 1,
+          justifyContent: 'center',
+          gap: 4
+        }}>
+          {[
+            { label: 'אודות', path: '/Auth/about' },
+            { label: 'רשימת מורות', path: '/Auth/list' },
+            { label: 'פרופיל', path: '/Auth/profile' },
+            { label: 'עריכת פרופיל', path: '/Auth/edit' }
+          ].map(link => (
+            <Typography
+              key={link.path}
+              variant="button"
+              sx={{
+                cursor: 'pointer',
+                color: '#eee',
+                fontWeight: 500,
+                transition: 'color 0.3s',
+                '&:hover': { color: '#40bebe' }
+              }}
+              onClick={() => navigate(link.path)}
+            >
+              {link.label}
+            </Typography>
+          ))}
+        </Box>
 
-          >
-            אודות
-          </Typography>
-              <Typography
-            variant="button"
-            sx={{ cursor: 'pointer', color: 'white' }}
-            onClick={() => navigate('/Auth/list')}
-
-          >
-            רשימת מורות
-          </Typography>
-
+        {/* פרופיל */}
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Tooltip title="אפשרויות">
             <IconButton onClick={handleAvatarClick} sx={{ p: 0 }}>
               <Avatar>{user?.name?.[0] || '?'}</Avatar>
             </IconButton>
           </Tooltip>
-
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
@@ -82,8 +110,9 @@ const Header: React.FC = () => {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           >
-            <MenuItem onClick={handleProfile}>פרופיל</MenuItem>
-            <MenuItem onClick={handleLogout}>התנתקות</MenuItem>
+            <MenuItem onClick={handleProfile} sx={{ color: '#333' }}>פרופיל</MenuItem>
+            <MenuItem onClick={handleEdit} sx={{ color: '#333' }}>עריכת פרופיל</MenuItem>
+            <MenuItem onClick={handleLogout} sx={{ color: '#333' }}>התנתקות</MenuItem>
           </Menu>
         </Box>
       </Toolbar>
@@ -92,3 +121,4 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+

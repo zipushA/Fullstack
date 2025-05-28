@@ -7,7 +7,8 @@ export type UserRegister = {
     password: string;
     matchingDataId:number;
     link:string;
-    role:string
+    role:string,
+    schoolName:string
     
 }
 export type User = {
@@ -19,6 +20,8 @@ export type User = {
     link:string;
     role:string
     matchingData: Data; 
+    schoolName:string
+
 }
 
 export type UserPostModel = {
@@ -27,5 +30,7 @@ export type UserPostModel = {
     password: string;
     matchingDataId:number;
     link:string;
+    schoolName:string
+
     
 }

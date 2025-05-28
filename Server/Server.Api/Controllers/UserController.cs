@@ -48,7 +48,7 @@ namespace Server.Api.Controllers
             return Ok(result);
         }
         [HttpGet("OrderData")]
-      //  [Authorize(Roles = "admin,principal")]
+
         public async Task<ActionResult<IEnumerable<UserDto>>> GetOrderData(int id)
         {
             var result = await _userService.GetOrderDataAsync(id);

@@ -703,7 +703,7 @@ body {
   }
 }
 .email-button {
-  background-color: #6a5acd;
+  background-color:#40BEBE;
   color: white;
   border: none;
   border-radius: 8px;
@@ -716,5 +716,5 @@ body {
 }
 
 .email-button:hover {
-  background-color: #5a4db0;
+  background-color:#349d9d
 } 

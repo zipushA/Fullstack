@@ -9,6 +9,7 @@ import { registerUser } from './Services/AuthService';
 import { UserPostModel, UserRegister } from '../models/UserType';
 import '../component/AuthForms.css';
 import RequestService from './Services/RequestService';
+import { useNavigate } from 'react-router-dom';
 
 // ולידציה
 const schema = Yup.object().shape({
@@ -16,19 +17,29 @@ const schema = Yup.object().shape({
   email: Yup.string().email('אימייל לא תקין').required('אימייל הוא שדה חובה'),
   password: Yup.string().required('סיסמא היא שדה חובה'),
   matchingDataId: Yup.number().required('dataId הוא שדה חובה'),
- link: Yup.string()
-  .default("")
-  .transform((value) => value ?? "") // מחליף undefined ב־"" תמיד
-  .when("role", {
-    is: (val: string) => val !== "principal",
-    then: (schema) => schema.required("יש להעלות קובץ קורות חיים"),
-    otherwise: (schema) => schema.notRequired(),
-}),
+  link: Yup.string()
+    .default("")
+    .transform((value) => value ?? "") // מחליף undefined ב־"" תמיד
+    .when("role", {
+      is: (val: string) => val !== "principal",
+      then: (schema) => schema.required("יש להעלות קובץ קורות חיים"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
   role: Yup.string().required('תפקיד הוא שדה חובה'),
+  schoolName: Yup.string()
+    .default("")
+    .transform((value) => value ?? "")
+    .when("role", {
+      is: (val: string) => val === "principal",
+      then: (schema) => schema.required("שם בית ספר הוא שדה חובה"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+
 });
 
 const RegisterForm: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const storedDataId = sessionStorage.getItem('dataId');
   const matchingDataId = storedDataId ? parseInt(storedDataId, 10) : 0;
   const userRole = sessionStorage.getItem("userType") as 'teacher' | 'principal' || 'teacher';
@@ -41,7 +52,9 @@ const RegisterForm: React.FC = () => {
       password: '',
       matchingDataId: matchingDataId,
       link: '',
-      role: userRole
+      role: userRole,
+      schoolName: isPrincipal ? '' : '',
+
     },
   });
 
@@ -138,13 +151,9 @@ const RegisterForm: React.FC = () => {
       email: data.email,
       password: data.password,
       matchingDataId: data.matchingDataId,
-      link: data.link
+      link: data.link,
+      schoolName: isPrincipal ? data.schoolName : ""
     };
-
-    // הדפסת הנתונים שנשלחים
-    console.log("📤 נתונים שנשלחים לשרת:", userPostModel);
-
-    console.log("📤 תפקיד שנבחר:", userRole);
     try {
       const res = await registerUser(userPostModel, data.role);
 
@@ -161,6 +170,7 @@ const RegisterForm: React.FC = () => {
 
       setTimeout(() => {
         setNotification(prev => ({ ...prev, show: false }));
+        navigate('/auth/about');
       }, 3000);
 
     } catch (error: any) {
@@ -305,6 +315,29 @@ const RegisterForm: React.FC = () => {
                     </div>
                   </div>
                 )}
+                {isPrincipal && (
+                  <div className="form-row">
+                    <div className={`form-floating-group ${activeField === 'schoolName' ? 'active' : ''} ${errors.schoolName ? 'error' : ''}`}>
+                      <input
+                        id="schoolName"
+                        type="text"
+                        {...register("schoolName")}
+                        placeholder=" "
+                        onFocus={() => setActiveField('schoolName')}
+                        onBlur={() => setActiveField(null)}
+                      />
+                      <label htmlFor="schoolName">שם בית ספר</label>
+                      <div className="form-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M3 9l9-6 9 6v6a9 9 0 0 1-18 0z"></path>
+                          <path d="M9 22V12h6v10"></path>
+                        </svg>
+                      </div>
+                      {errors.schoolName && <div className="form-error">{errors.schoolName.message}</div>}
+                    </div>
+                  </div>
+                )}
+
                 {!isPrincipal && (
                   <div className="form-row">
                     <div className="file-upload-wrapper">
@@ -325,7 +358,7 @@ const RegisterForm: React.FC = () => {
                   </div>
                 )}
 
-                {!isPrincipal&&linkValue && (
+                {!isPrincipal && linkValue && (
                   <div className="form-row">
                     <div className="link-preview">
                       <div className="link-icon">

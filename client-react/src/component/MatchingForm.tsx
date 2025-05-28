@@ -453,7 +453,7 @@ const userType = sessionStorage.getItem("userType")
                         />
                       )}
                     />
-                    <label htmlFor="seniority">ותק (בשנים)</label>
+                    <label htmlFor="seniority">  {isTeacher ? "שנות ניסיון:" : "דרישה לותק:"}</label>
                     <div className="form-icon">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
@@ -511,7 +511,7 @@ const userType = sessionStorage.getItem("userType")
                             />
                             <span className="checkmark"></span>
                             <span className="checkbox-text">
-                              {isTeacher ? " מלמדת בנים" : "מיועד לכיתה של בנים"}
+                              {isTeacher ? "מלמדת בנים" : "בית ספר עם כיתות בנים?"}
                             </span>
                           </label>
                         )}
@@ -533,7 +533,7 @@ const userType = sessionStorage.getItem("userType")
                             />
                             <span className="checkmark"></span>
                             <span className="checkbox-text">
-                              {isTeacher ? " מתאימה לקרוב" : "תפקיד במסגרת בית ספר קירוב"}
+                              {isTeacher ? " מתאימה לקרוב" : "בית ספר קירוב"}
                             </span>
                           </label>
                         )}

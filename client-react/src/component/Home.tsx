@@ -30,11 +30,6 @@ const HomePage: React.FC = () => {
         sessionStorage.setItem("userType", "principal");
         navigate('/auth/login');
     };
-
-    // const scrollToAbout = () => {
-    //     aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
-    // };
-
     useEffect(() => {
         setIsLoaded(true);
     }, []);
