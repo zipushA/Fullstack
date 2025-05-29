@@ -21,14 +21,21 @@ public class MyOpenAiService : IMyOpenAiService
     {
         var requestBody = new
         {
-            model = "gpt-4",  // עדכון המודל ל-gpt-4
+            model = "gpt-4",
             messages = new[]
             {
-                new { role = "system", content = "אתה עוזר שמסכם קורות חיים של מורות ." },
-                new { role = "user", content = $"נתונים מקובץ קורות חיים:\n{resumeText}\n\nנתח את האישיות והמאפיינים המקצועיים של המורה בקצרה." }
-            },
+          new {
+              role = "system",
+              content = "אתה עוזר מקצועי מאד מאד וטוב שמסכם אך ורק את המידע המופיע בקובץ קורות החיים של מורות. אל תמציא מידע, אל תשער השערות, אל תפרשן מעבר לנאמר, ואל תשתמש בביטויים כמו 'כנראה', 'ייתכן', או 'לרוב'. הסיכום צריך להיות מבוסס אך ורק על עובדות מפורשות שהוזכרו בטקסט המקורי. אין להזכיר שמות או פרטים מזהים."
+             },
+
+            new {
+                role = "user",
+                content = $"הנה קובץ קורות חיים:\n{resumeText}\n\nאנא נסח סיכום תמציתי של הכישורים, הניסיון והמאפיינים המקצועיים של המועמדת בלבד, בלי להוסיף מידע שלא מופיע בטקסט, ובלי להזכיר שמות."
+            }
+        },
             max_tokens = 1000,
-            temperature = 0.7
+            temperature = 0.2
         };
 
         var requestJson = JsonSerializer.Serialize(requestBody);
@@ -55,5 +62,7 @@ public class MyOpenAiService : IMyOpenAiService
 
         return message?.Trim() ?? "לא התקבל סיכום.";
     }
+  
+
 }
 

@@ -132,8 +132,8 @@ const ResumeLinksList: React.FC = () => {
   return (
     <div className="resume-page">
 
-        <div className="resume-background">
-       <div className="resume-circle resume-circle-1"></div>
+      <div className="resume-background">
+        <div className="resume-circle resume-circle-1"></div>
         <div className="resume-circle resume-circle-2"></div>
         <div className="resume-circle resume-circle-3"></div>
 
@@ -178,9 +178,9 @@ const ResumeLinksList: React.FC = () => {
               </>
             )}
           </button>
-        </div> 
+        </div>
 
-         {loading ? (
+        {loading ? (
           <div className="resume-loading">
             <div className="resume-spinner"></div>
             <p>טוען רשימת מורות...</p>
@@ -268,12 +268,16 @@ const ResumeLinksList: React.FC = () => {
                         <span>שליחת מייל</span>
                       </button>
                     </div>
-                  </div>             
+                  </div>
                 </div>
                 {openCards[teacher.id] && (
                   <div className="resume-card-content">
                     <div className="ai-summary">
                       <div className="ai-summary-header">
+                        <div className="ai-warning">
+                           שימו לב: ניתוח זה הופק על ידי מערכת בינה מלאכותית (AI). אין להסתמך עליו כמידע רשמי או בלעדי. יש לוודא את הנתונים מול המסמכים המקוריים.
+                        </div>
+
                         <div className="ai-icon">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
@@ -282,7 +286,7 @@ const ResumeLinksList: React.FC = () => {
                             <path d="M12 12l10 0"></path>
                           </svg>
                         </div>
-                        <h4>סיכום AI</h4>
+                     
                       </div>
                       <div className="ai-summary-content">
                         {aiSummaries[teacher.id] ? (
@@ -323,16 +327,16 @@ const ResumeLinksList: React.FC = () => {
             <p>{notification.message}</p>
           </div>
         </div>
-      )} 
+      )}
       {emailModalTeacher && (
         <SendEmailModal
           open={true}
           onClose={() => setEmailModalTeacher(null)}
           teacherEmail={emailModalTeacher?.email}
           teacherName={emailModalTeacher?.name}
-         
+
         />
-       )} 
+      )}
 
     </div>
   );

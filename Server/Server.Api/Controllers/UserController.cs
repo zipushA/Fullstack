@@ -48,7 +48,7 @@ namespace Server.Api.Controllers
             return Ok(result);
         }
         [HttpGet("OrderData")]
-
+        [Authorize(Roles = "principal")]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetOrderData(int id)
         {
             var result = await _userService.GetOrderDataAsync(id);
@@ -125,7 +125,6 @@ namespace Server.Api.Controllers
         }
         // ⬆️ שלב 1: קבלת URL להעלאת קובץ ל-S3
         [HttpGet("Upload-url")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetUploadUrl([FromQuery] string fileName, [FromQuery] string contentType)
         {
             //if(contentType!=".pdf"&& contentType != ".docx")
@@ -140,7 +139,6 @@ namespace Server.Api.Controllers
 
         // ⬇️ שלב 2: קבלת URL להורדת קובץ מה-S3
         [HttpGet("Download-url/{fileName}")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetDownloadUrl(string fileName)
         {
             var url = await _s3Service.GetDownloadUrlAsync(fileName);
