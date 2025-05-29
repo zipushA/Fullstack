@@ -1,4 +1,5 @@
 ﻿using DotNetEnv;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Server.Api;
 using Server.Api.Extensions;
@@ -33,6 +34,10 @@ builder.Services.AddCors(options =>
 });
 
 
+string connectionString = Env.GetString("DATABASE_CONNECTION_STRING");
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+    options => options.CommandTimeout(60)));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();

@@ -6,14 +6,24 @@ namespace Server.Data
 {
     public class DataContext : DbContext
     {
-     
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+        }
+
+
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<MatchingData> MatchingData { get; set; }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=Mathing_db");
+        //}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=Mathing_db");
+            base.OnConfiguring(optionsBuilder);
+            //optionsBuilder.LogTo(mesege => Console.Write(mesege));
         }
+
     }
 }
 
