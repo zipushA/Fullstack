@@ -1,19 +1,13 @@
-# שלב 1: בנייה
+# שלב בנייה
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
-
-COPY Server.csproj ./
+COPY Server.Api.csproj ./
 RUN dotnet restore
+COPY . .
+RUN dotnet publish -c Release -o /app
 
-COPY . ./
-RUN dotnet publish -c Release -o /app/publish
-
-# שלב 2: הרצה
+# שלב הרצה
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
-COPY --from=build /app/publish .
-
-EXPOSE 5000
-ENV ASPNETCORE_URLS=http://+:5000
-
-ENTRYPOINT ["dotnet", "Server.dll"]
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "Server.Api.dll"]
