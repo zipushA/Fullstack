@@ -16,7 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="OpenAI" Version="2.2.0-beta.4" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.3.efcore.9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
     <PackageReference Include="UglyToad.PdfPig" Version="1.7.0-custom-5" />
   </ItemGroup>
@@ -24,6 +24,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Server.Data\Server.Data.csproj" />
     <ProjectReference Include="..\Server.Service\Server.Service.csproj" />
+	  <ProjectReference Include="..\Server.Core\Server.Core.csproj" />
+
   </ItemGroup>
 
 </Project>
