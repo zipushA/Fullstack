@@ -24,7 +24,7 @@ namespace Server.Api.Controllers
         // GET: api/<TeacherController>
         [HttpGet]
 
-        [Authorize(Roles = "admin")]
+   //     [Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<UserDto>>> Get()
         {
             var result = await _userService.GetAllAsync();
@@ -36,7 +36,7 @@ namespace Server.Api.Controllers
         }
 
         [HttpGet("Full")]
-        [Authorize(Roles = "admin")]
+       // [Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetFull([FromQuery] string role)
         {
           
@@ -48,7 +48,7 @@ namespace Server.Api.Controllers
             return Ok(result);
         }
         [HttpGet("OrderData")]
-        [Authorize(Roles = "principal")]
+      //  [Authorize(Roles = "principal")]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetOrderData(int id)
         {
             var result = await _userService.GetOrderDataAsync(id);
