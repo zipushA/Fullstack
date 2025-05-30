@@ -49,7 +49,7 @@ const emailHtml = `
     setSuccess(false)
 
     try {
-      await axios.post("https://localhost:7082/api/Email/send", {
+      await axios.post("https://teachtak.onrender.com/api/Email/send", {
         to: teacherEmail,
         subject,
         body:emailHtml,

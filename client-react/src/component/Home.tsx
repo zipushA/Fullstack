@@ -145,16 +145,6 @@ const HomePage: React.FC = () => {
                                 </div>
                             </motion.div>
 
-                            {/* <motion.div
-                                className="scroll-indicator"
-                                animate={{ y: [0, 10, 0] }}
-                                transition={{ repeat: Infinity, duration: 1.5 }}
-                                onClick={scrollToAbout}
-                            >
-                                <span>גלול למטה</span>
-                                <ChevronDown className="scroll-arrow" size={24} />
-                            </motion.div> */}
-
                             <motion.div
                                 className="hero-buttons"
                                 initial={{ opacity: 0, y: 30 }}

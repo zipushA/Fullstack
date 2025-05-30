@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { UserPostModel } from '../../models/UserType';
 
-const BASE_URL = 'https://localhost:7082/api/Auth';
+const BASE_URL = 'https://teachtak.onrender.com/api/Auth';
 
 export const registerUser = (user: UserPostModel, role: string) => {
     return axios.post(`${BASE_URL}/register/${role}`, user, {

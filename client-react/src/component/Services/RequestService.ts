@@ -7,7 +7,7 @@ const RequestService = {
   getPresignedUrl: async (fileName: string, contentType: string) => {
     const token = store.getState().auth.token;
 
-    const response = await axios.get('https://localhost:7082/api/User/Upload-url', {
+    const response = await axios.get('https://teachtak.onrender.com/api/User/Upload-url', {
       params: { fileName, contentType },
       headers: {
         Authorization: `Bearer ${token}`

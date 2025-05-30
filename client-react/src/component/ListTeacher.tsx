@@ -5,20 +5,15 @@ import { RootState } from './Redux/store';
 import axios from 'axios';
 import '../component/ResumeLinksList.css';
 import SendEmailModal from './SendEmailModal';
-
-
-
 interface Teacher {
   id: number;
   name: string;
   link: string;
   email: string;
 }
-
 interface AISummary {
   [teacherId: number]: string;
 }
-
 const ResumeLinksList: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const token = useSelector((state: RootState) => state.auth.token);
@@ -55,7 +50,7 @@ const ResumeLinksList: React.FC = () => {
     const fetchData = async () => {
       if (!user) return;
       try {
-        const response = await axios.get(`https://localhost:7082/api/User/OrderData?id=${user.id}`, {
+        const response = await axios.get(`https://teachtak.onrender.com/api/User/OrderData?id=${user.id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTeachers(response.data);
@@ -99,7 +94,7 @@ const ResumeLinksList: React.FC = () => {
     setLoadingAI(prev => ({ ...prev, [teacher.id]: true }));
     setAiSummaries((prev) => ({ ...prev, [teacher.id]: '' }));
     try {
-      const response = await axios.get('https://localhost:7082/api/AI/summary', {
+      const response = await axios.get('https://teachtak.onrender.com/api/AI/summary', {
         params: { resumeUrl: teacher.link },
       });
       setAiSummaries((prev) => ({ ...prev, [teacher.id]: response.data.summary }));
@@ -116,7 +111,7 @@ const ResumeLinksList: React.FC = () => {
     if (!user) return;
     setSorting(true);
     try {
-      const response = await axios.get('https://localhost:7082/api/Matching/sorted-teachers', {
+      const response = await axios.get('https://teachtak.onrender.com/api/Matching/sorted-teachers', {
         params: { principalId: user.id },
         headers: { Authorization: `Bearer ${token}` },
       });

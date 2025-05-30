@@ -317,10 +317,7 @@ import { useNavigate } from 'react-router-dom';
 import { Data } from '../models/dataType';
 import '../component/AuthForms.css';
 import '../component/MatchingForm.css';
-// import { useSelector } from 'react-redux';
-// import { RootState } from './Redux/store';
 
-// ולידציה
 const schema = Yup.object().shape({
   seniority: Yup.number().required('ניסיון הוא שדה חובה').min(0, 'המספר חייב להיות חיובי'),
   isBoys: Yup.boolean().required('שדה חובה'),

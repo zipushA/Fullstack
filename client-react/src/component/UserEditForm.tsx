@@ -13,8 +13,8 @@ import { User, Mail, Upload, Calendar, MapPin, Users, Heart, Save, FileText, Ale
 import axios from "axios"
 import RequestService from "./Services/RequestService"
 import "./Profile.css"
-const API_USER = "https://localhost:7082/api/User"
-const API_MATCHING = "https://localhost:7082/api/MatchingData"
+const API_USER = "https://teachtak.onrender.com/api/User"
+const API_MATCHING = "https://teachtak.onrender.com/api/MatchingData"
 
 const UserEditForm: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.user)
