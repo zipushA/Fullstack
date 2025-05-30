@@ -63,7 +63,7 @@ namespace Server.Service.Services
             var user = _mapper.Map<User>(userDto);
             int id = 2;
             if(role=="teacher")
-                id = 3;
+                id = 4;
             user.RoleList = new List<Role>();
             var roleList = await _generyRepository.GetAsync();
             var existRole = roleList.FirstOrDefault(r => r.Id == id);
