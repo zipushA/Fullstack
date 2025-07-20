@@ -70,3 +70,4 @@ VALUES (N'20250529194346_InitialCloud', N'9.0.2');
 COMMIT;
 GO
 
+INSERT INTO `Roles`( `RoleName`) VALUES ('teacher');

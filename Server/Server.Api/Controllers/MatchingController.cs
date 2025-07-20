@@ -19,7 +19,7 @@ public class MatchingController : ControllerBase
     [HttpGet("sorted-teachers")]
     public async Task<IActionResult> GetSortedTeachers([FromQuery] int principalId)
     {
-        User principal=_userRepository.GetByIdDataAsync(principalId).Result;
+        User principal = await _userRepository.GetByIdDataAsync(principalId);
         var schoolAddress = principal.Data.ResidentialArea;
         if (principalId <= 0 || string.IsNullOrWhiteSpace(schoolAddress))
             return BadRequest("PrincipalId and SchoolAddress are required.");
